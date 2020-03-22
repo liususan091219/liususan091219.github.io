@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<!-- saved from url=(0042)https://gangw.cs.illinois.edu/class/cs463/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>cs284</title>
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <link href="https://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/cs284_files/bootstrap.css" type="text/css" rel="stylesheet" media="screen">
+   <link href="https://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/cs284_files/non-responsive.css" rel="stylesheet">
+   
+    
+<style type="text/css">
+  body {
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+  .sidebar-nav {
+    padding: 0px 0;
+  }
+  .page-header {
+    border-bottom: 1px solid #ADA9A9;
+    margin-bottom: 10px;
+  }
+  
+</style>
+
+<style type="text/css">
+</style>
+
+</head>
+ 
+
+<body style="">
+<div class="container">  
+    <div class="row">
+    <div class="col-lg-12">
+
+      <div class="page-header">
+      <h2><b>CS 284: Data Structures</b></h2>
+      <p> 
+      <!--
+      <a href="index.html">Home</a> |       
+      <a href="project.html">Project</a>|
+      -->
+      <a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/cs284.html">Home</a> |
+      <a href="https://sit.instructure.com/courses/35995/pages/homepage">Canvas</a> |
+      <a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/resources.html">Resources</a> |
+      <a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/faq.html">FAQ</a> 
+      
+      </p>
+
+      </div>
+
+      <div class="bs-component">
+
+      <p style="color:red;"><b>Following Stevens' guidelines on the coronavirus emergency (COVID-19), all course materials will be offered online, starting Mar 11.</b> </br>
+
+      <table class="table table-bordered table-striped" style="width: 60%">
+        <colgroup>
+       <col span="1" style="width: 30%;">
+       <col span="1" style="width: 70%;">
+    </colgroup>
+        <tbody>
+        <tr>
+        <td>Instructor</td> <td><a href="https://www.cs.stevens.edu/~xliu127/index.html">Susan (Xueqing) Liu</a> (xueqing.liu AT stevens DOT edu)</td>
+        </tr>
+        <tr>
+        <td>Meeting</td> 
+        <td>
+          <table>
+            <tr>
+
+      <ul style="list-style-type:none;padding-left: 0;">
+        <li> MWF: 11:00 AM - 11:50 AM, Pierce Hall 120 </li>
+        <li> <a href="https://stevens.zoom.us/j/390511412">Zoom meeting for Lectures </a> </li>
+        <li></li>
+      </ul>
+      </tr>
+    </table>
+        </td>
+        </tr>
+                <tr>
+        <td>Susan's Office Hour</td> 
+        <td>
+          <table>
+            <tr>
+
+      <ul style="list-style-type:none;padding-left: 0;">
+        <li> Fri: 12:50 PM - 2:50 PM at Gateway South 250 </li>
+        <li> <a href="https://stevens.zoom.us/j/156930300">Zoom meeting for Office hour </a> </li>
+        <li></li>
+      </ul>
+      </tr>
+    </table>
+        </td>
+        </tr>
+        <tr>
+        <td>CAs</td> 
+        <td>
+          <table>
+            <tr>
+
+      <ul style="list-style-type:none;padding-left: 0;">
+        <li>Bhagyesh Patel</li>
+        <li>OH: Mon 4:00 PM - 5:00 PM, ABS engr center</li>
+        <li><a href="https://stevens.zoom.us/j/676333523">Zoom meeting for Bhagyesh's Office hour </a> </li>
+        <li></li>
+      </ul>
+
+      <ul style="list-style-type:none;padding-left: 0;">
+        <li>Joshua Schmidt</li>
+        <li>OH: Mon 1:00 PM - 2:00 PM, Gateway South 216</li>
+        <li><a href="https://stevens.zoom.us/j/950552728">Zoom meeting for Joshua's Office hour </a> </li>
+        <li></li>
+      </ul>
+
+      <ul style="list-style-type:none;padding-left: 0;">
+        <li>Revathy (Rev) Ramasundaram</li>
+        <li>OH: Wed 4:00 PM - 5:00 PM, Gateway North 204</li>
+        <li><a href="https://stevens.zoom.us/j/156930300">Zoom meeting for Revathy's Office hour </a> </li>
+        <li></li>
+      </ul>
+      </tr>
+    </table>
+        </td>
+        
+        </tr>
+              <tr>
+        <td>Recitations</td> <td>
+          <ul style="list-style-type:none;padding-left: 0;">
+            <li>RE: Fri 3:00-3:50PM, GS 024 </li>
+            <li><a href="https://stevens.zoom.us/j/230879718">Zoom meeting for RE </a> </li>
+            <li>RF: Fri 3:00-3:50PM, GS 025 </li>
+            <li><a href="https://stevens.zoom.us/j/651904432">Zoom meeting for RF </a> </li>
+          </ul>
+        </td>
+        </tr>
+        </tbody>
+        </table> 
+
+<!--
+      <p style="color:red;"><b>The information below is based on the previous offering of this class (for reference only). </br>
+      The information is subject to potential changes before the start of the Spring 2020 semester.</b></p>
+-->
+
+  <h3><b>Class Description</b> </h3>
+
+      <p>This course is an introductory-level course for preparing undergraduate students at Stevens with the fundamental knowledge on data structures. Data structures are ways to organize information in the computer memory, making it more efficient to store, update and retrieve information. Upon finishing the course work, students are expected to achieve a good understanding on data structure, object-oriented programming, algorithm efficiency, etc; they should be capable of implementing basic data structures including lists, stacks, queues, binary trees, as well as fundamental algorithms including sorting, Hashing, and self-balancing trees. We will use the Java programming language throughout the course. The students are expected to be practice a significant amount of coding, in both computer and paper. This course has a prerequisite course <a href="https://web.stevens.edu/academic_files/courses/syllabus/CS115syl.pdf"> CS 115 (Introduction to CS) </a> and a co-requisite course <a href="https://web.stevens.edu/academic_files/courses/syllabus/CS135syl.pdf"> CS 135 (Discrete Structures). </a>
+      </p>
+
+     <p><b>Learning Goals: </b>
+      Upon successful completion of this course, students should be able to: 
+      <ul>
+      <li>(Abstract Data Types): Understand the role of abstract data types in data structures, being able to use UML to represent ADTs; </li>
+      <li>(Complexity): Derive Big-O notations for diverse non-recursive algorithms and use it to estimate the computational complexity of algorithms; </li>
+      <li>(Collections): Understand the how to use the Collection class, including Lists, Stacks and Queues; </li>
+      <li>(Trees): Implement Binary Search Trees, Max/Min Heaps, Priority Queues in Java, and understand the basic concepts of self-balancing trees; </li>
+      <li>(Sets and Maps): Understand how to use sets and maps; </li>
+      <li>(Sorting): Implement the algorithms of basic sorting algorithms in Java; </li>
+      <li>(JUnit): Use JUnit to test projects; </li>
+    </ul>
+      </p>
+
+      <p><b>Textbook: </b>
+       <a href="http://www.r-5.org/files/books/computers/algo-list/test-dev/Elliot_B_Koffman_Paul_A_T_Wolfgang-Data_Structures-EN.pdf"> Objects, abstraction, data structures and design using Java</a>. <i>Elliot B. Koffman and Paul A.T. Wolfgang</i>. 
+      </p>
+
+<!--
+<p><b>Important note: </b> It assumes a basic knowledge of the area such as the material covered by Computer Security I (CS 461). This semester it will expect ability to program in Java and C or C++.</p>
+
+
+      <h3><b>Expected Work</b></h3>
+      
+      <p><b>Participation:</b> Students are required to attend all the lectures. Please inform the instructor and the TA via email if you cannot make it to the class due to travel or sickness. </p> 
+
+      <p><b>Quizzes:</b> Students are expected to complete a short quiz within 24 hours after each lecture. The quiz contains 4-5 single-choice or multi-choice questions. The quiz is closely related to the respective lecture and is designed to be light-weighted (and hopefully fun) to improve student engagement during the lecture. Quiz is not graded --- students will receive points by simply trying them. </p> 
+
+      <p><b>Machine Problem (MP):</b> Students are expected to work on 4-5 MPs throughout the semester. The projects will involve hand-on programming and data analysis, covering various topics that complement the lecture topics. Example topics include tracking user location based on social network data, interacting with Bitcoin APIs, multiple parties performing joint machine-learning without directly exchanging data. The list of project topics will be released later in Spring 2020. 
+      </p><p><b>Survey paper:</b> This is for 4-credit student only. 
+      </p>
+
+      <h3><b>Get Ready for the Class</b></h3>
+      <ul>
+        <li>Make sure you have signed up to the <a href="https://piazza.com/class/k58g8mvy1vf28e">Piazza</a> group of this class </li>
+        <li>Check if you have access to the <a href="https://learn.illinois.edu/course/view.php?id=43143">quiz release page</a> </li>
+        
+        <li>Create your git repo via this <a href="https://edu.cs.illinois.edu/create-ghe-repo/cs463-sp20/">one-time link</a></li>
+        <li>Learn how to use git. Some helpful information <a href="https://piazza.com/class/k58g8mvy1vf28e?cid=7">here</a> </li>
+
+
+        
+      </ul> -->
+
+
+       <h3><b>Schedule</b></h3>
+      <a name="class" id="class"></a>
+        Note: some slides require password, you can find the password from the home page in <a href="https://sit.instructure.com/courses/35995/pages/homepage"> Canvas</a><br><br>
+
+        <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+          <th>Date</th>
+          <th>Slides/Readings</th>
+          <th>Code</th>
+          <th>Recitation</th>
+          <th>Homework/Exams</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr><td>Week of Jan 21</td> 
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+        <li>
+        Overview <a href="https://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/slides/overview.pdf">slides</a> </li>
+        <li>
+        Java Basic <a href="https://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/slides/java_basic.pdf">slides</a> </li>
+        <li>
+        Reading: Appendix A </li>
+      </ul>
+        </td>
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+         <li> <a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/java/week_1/Person.java">Person.java</a></li> 
+         <li> <a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/java/week_1/Person_2.java">Person_2.java</a> </li> 
+         <li><a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/java/week_1/Person_3.java">Person_3.java</a></li> 
+         <li><a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/java/week_1/Person_4.java">Person_4.java</a></li>
+       </ul>
+       </td>
+        <td>Eclipse installation:
+          <ul style="list-style-type:none;padding-left: 0;">
+            <li>RE: Joshua, RF: Bhagyesh</li>
+            <li>Bhagyesh's <a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/recitations/eclipsesetup.pdf">slides</a></li>
+          </ul></td>
+          <td>
+            <a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/quiz/quiz1.pdf">Quiz 1</a>
+          </td></tr>
+
+        <tr><td>Week of Jan 27</td> 
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+        <li>
+        Inheritance/ADT <a href="https://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/slides/oop_1.html">slides</a> </li>
+        <li>
+        Overriding/overloading/Polymorphism <a href="https://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/slides/oop_2.html">slides</a> </li>
+        <li>
+        Casting <a href="https://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/slides/oop_3.html">slides</a> </li>
+        <li>
+        Reading: Chapter 3 </li>
+      </ul>
+        </td>
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+         <li> <a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/java/week_2.Computer.java">Computer.java</a></li> 
+         <li> <a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/java/week_2/BankAccount.java">BankAccount.java</a> </li> 
+         <li><a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/java/week_2/SavingsAccount.java">SavingsAccount.java</a></li> 
+       </ul>
+       </td>
+        <td>Java OOP:
+          <ul style="list-style-type:none;padding-left: 0;">
+            <li>RE: Joshua, RF: Bhagyesh</li>
+            <li><a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/recitations/week1.zip">polymorphism</a></li>
+          </ul></td>
+        <td><ul style="list-style-type:none;padding-left: 0;">
+          <li>Homework 1 out</li>
+          <a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/quiz/quiz2.pdf">Quiz 2</a>
+        </ul>
+        </td>
+        </tr>
+
+        <tr><td>Week of Feb 3</td> 
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+        <li>
+        Exceptions, Packages <a href="https://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/slides/oop_3.html">slides</a> </li>
+        <li>
+        Software Lifecycle <a href="https://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/slides/software.html">slides</a> </li>
+        <li>
+        Big-O notations <a href="https://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/slides/bigo.html">slides</a> </li>
+        <li> <a href="https://wiki.illinois.edu/wiki/display/cs498stfa17/">Prof. Tao Xie's course slides on software testing</a> </li>
+        <li> <a href="https://www.cs.stevens.edu/~xliu127/pdf/re18_xueqing.pdf">Mobile security requirements engineering</a> </li>
+      </ul>
+        </td>
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+       </ul>
+       </td>
+        <td>Algorithmic efficiency:
+          <ul style="list-style-type:none;padding-left: 0;">
+            <li>RE: Joshua (quiz 2 feedback)</li>
+            <li>RF: Revathy (quiz 1 feedback)</li>
+            <li><a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/recitations/Recitation_Week2_RF.zip">Jnit, Java</a></li>
+          </ul></td>
+        <td></td>
+        </tr>
+
+                <tr><td>Week of Feb 10</td> 
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+        <li>
+        Big-O notations (cont.) <a href="https://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/slides/bigo.html">slides</a> </li>
+        <li>
+        Lists <a href="https://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/slides/list.html">slides</a> </li>
+
+        <li> Reading: Chapter 2 and 4 </li>
+      </ul>
+        </td>
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+        <li> <a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/java/week_4/TwoSum.java">TwoSum.java</a></li> 
+        <li> <a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/java/week_4/TwoSumTest.java">TwoSumTest.java</a></li> 
+        <li> <a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/java/week_4/Person.java">Person.java</a></li> 
+        <li> <a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/java/week_4/StevensStudent.java">StevensStudent.java</a></li> 
+        <li> <a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/java/week_4/StevensDatabase.java">StevensDatabase.java</a></li>
+        <li> <a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/java/week_4/SearchStevensStudentTest.java">SearchStevensStudentTest.java</a></li>  
+       </ul>
+       </td>
+        <td>More on two sum, list:
+          <ul style="list-style-type:none;padding-left: 0;">
+            <li>RE: Joshua</li>
+            <li>RF: Revathy</li>
+          </ul></td>
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+          <li>Homework 1 due</li>
+          <li>Homework 2 out </li>
+          <a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/quiz/quiz3.pdf">Quiz 3</a>
+        </ul></td>
+        </tr>
+
+        <tr><td>Week of Feb 17</td> 
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+        <li>
+        Lists (cont.) <a href="https://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/slides/list_2.html">slides</a> </li>
+        <li>Reading: Chapter 4</li>
+        <li> <a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/quiz/exercise_list.html">Exercise on linked lists</a> </li>
+      </ul>
+        </td>
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+          <li> <a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/java/week_5/SingleLinkedList.java">SingleLinkedList.java</a></li>
+       </ul>
+       </td>
+        <td>Ordered-linked lists:
+          <ul style="list-style-type:none;padding-left: 0;">
+          <li>RE: Joshua </li>
+          <li>RF: Bhagyesh (quiz 3 feedback)</li>
+          </ul></td>
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+        </ul></td>
+        </tr>
+
+        <tr><td>Week of Feb 24</td> 
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+        <li>
+        Stack: interface/application <a href="https://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/slides/stack.html">slides</a> </li>
+         <li>
+        Stack: implementation using linked lists <a href="https://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/slides/stack.html">slides</a> </li>
+        <li>Reading: Chapter 5</li>
+      </ul>
+        </td>
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+                    <li> <a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/java/week_5/PairLinkedList.java">PairLinkedList.java (for quiz 4 retake) </a></li>
+                    <li> <a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/java/week_5/ParenChecker.java">ParenChecker.java </a></li>
+       </ul>
+       </td>
+        <td>Quiz 4 retake (on laptop):
+          <ul style="list-style-type:none;padding-left: 0;">
+          <li>RE: Joshua </li>
+          <li>RF: Bhagyesh</li>
+          </ul></td>
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+          <li>Homework 2 due</li>
+          <li>Homework 3 out </li>
+          <li> <a href="https://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/quiz/quiz4.pdf">Quiz 4</a> <a href="https://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/quiz/quiz4_retake.pdf">Quiz 4 retake</a> </li>
+        </ul></td>
+        </tr>
+
+ <tr><td>Week of Mar 2</td> 
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+        <li>
+        Queue: interface/application <a href="https://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/slides/queue.html">slides</a> </li>
+        <li>
+        Recursion <a href="https://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/slides/recursion.html">slides</a> </li>
+        <li>
+        Review for Midterm  </li>
+        <li>
+        Reading: Chapter 6  </li>
+        <li>
+        <a href="https://blog.logrocket.com/using-trampolines-to-manage-large-recursive-loops-in-javascript-d8c9db095ae3/">Using trampoline</a>  </li>
+        <a href="https://towardsdatascience.com/what-is-tail-recursion-elimination-or-why-functional-programming-can-be-awesome-43091d76915e">Tail recursion</a>  </li>
+      </ul>
+        </td>
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+          <li> <a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/java/week_7/queue_stack.java">queue_stack.java</a></li>
+          <li> <a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/java/week_7/stack_queue.java">stack_queue.java</a></li>
+       </ul>
+       </td>
+        <td>Review for midterm:
+          <ul style="list-style-type:none;padding-left: 0;">
+          </ul></td>
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+        </ul></td>
+        </tr>
+
+<tr><td>Week of Mar 9</td> 
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+        <li>
+        Midterm part 1  </li>
+        <li>
+        Midterm part 2  </li>
+        <li>
+        Recursion <a href="https://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/slides/recursion.html">slides</a> </li>
+      </ul>
+        </td>
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+       </ul>
+       </td>
+        <td>Feedback for Midterm Part 2: 
+          <ul style="list-style-type:none;padding-left: 0;">
+            <li> RE: Joshua</li>
+            <li> RF: Susan</li>
+          </ul></td>
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+          <li>Midterm part 2: Mar 9</li>
+           <li>Midterm part 1: Mar 11 (Canvas / Quizzes / Midterm Part 1) </li>
+        </ul></td>
+        </tr>
+
+        <tr><td>Week of Mar 23</td> 
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+        <li>
+        Binary tree (cont.) </li>
+        <li>
+        Binary search tree </li>
+
+        <li>
+        Bin tree: implementation </li>
+      </ul>
+        </td>
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+       </ul>
+       </td>
+        <td>Binary tree:
+          <ul style="list-style-type:none;padding-left: 0;">
+          </ul></td>
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+          <li>Homework 3 due</li>
+          <li>Homework 4 out </li>
+        </ul></td>
+        </tr>
+
+        <tr><td>Week of Mar 30</td> 
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+        <li>
+        BST: implementation </li>
+        <li>
+        BST: deletion </li>
+
+        <li>
+        Heap </li>
+      </ul>
+        </td>
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+       </ul>
+       </td>
+        <td>Heap:
+          <ul style="list-style-type:none;padding-left: 0;">
+          </ul></td>
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+        </ul></td>
+        </tr>
+        <tr><td>Week of April 6</td> 
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+        <li>
+        Selection sort </li>
+        <li>
+        Bubble sort </li>
+      </ul>
+        </td>
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+       </ul>
+       </td>
+        <td>Sort:
+          <ul style="list-style-type:none;padding-left: 0;">
+          </ul></td>
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+          <li>Homework 4 due</li>
+          <li>Homework 5 out </li>
+        </ul></td>
+        </tr>
+
+               <tr><td>Week of April 13</td> 
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+        <li>
+        Insertion sort </li>
+        <li>
+        Shell sort </li>
+        <li>
+        Merge sort </li>
+      </ul>
+        </td>
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+       </ul>
+       </td>
+        <td>Sort:
+          <ul style="list-style-type:none;padding-left: 0;">
+          </ul></td>
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+        </ul></td>
+        </tr>
+
+   <tr><td>Week of April 20</td> 
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+        <li>
+        Merge sort(cont.)/Heap sort </li>
+        <li>
+        Sets/Maps </li>
+        <li>
+        Hashing </li>
+      </ul>
+        </td>
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+       </ul>
+       </td>
+        <td>Hashing:
+          <ul style="list-style-type:none;padding-left: 0;">
+          </ul></td>
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+        </ul></td>
+        </tr>
+
+           <tr><td>Week of April 27</td> 
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+        <li>
+        AVL trees </li>
+        <li>
+        AVL trees (cont.) </li>
+      </ul>
+        </td>
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+       </ul>
+       </td>
+        <td>Self-balancing trees:
+          <ul style="list-style-type:none;padding-left: 0;">
+          </ul></td>
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+          <li>Homework 5 due</li>
+        </ul></td>
+        </tr>
+
+            <tr><td>Week of May 4</td> 
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+        <li>
+        Endterm </li>
+        <li>
+        TBD </li>
+      </ul>
+        </td>
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+       </ul>
+       </td>
+        <td>
+          <ul style="list-style-type:none;padding-left: 0;">
+          </ul></td>
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+        <li>End term: May 4</li>
+        </ul></td>
+        </tr>       
+            <tr><td>Week of May 11</td> 
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+        <li>
+        Final exam </li>
+      </ul>
+        </td>
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+       </ul>
+       </td>
+        <td>
+          <ul style="list-style-type:none;padding-left: 0;">
+          </ul></td>
+        <td>
+        <ul style="list-style-type:none;padding-left: 0;">
+        </ul></td>
+        </tr> 
+        </tbody>
+        </table> 
+
+
+
+      
+      <h3><b>Final Grade Calculator</b></h3>
+      <p>
+      <a name="grades" id="grades"></a>
+      </p>
+
+
+      <table class="table table-bordered table-striped" style="width: 40%">
+        <col span="1" style="width: 50%;">
+       <col span="1" style="width: 50%;">
+        <tbody>
+        <tr>
+        <td>Homework</td><td>30%</td>
+        </tr>
+        <tr>
+        <td>In-class quizzes</td><td>10%</td>
+        </tr>
+        <tr>
+        <td>Midterm</td><td>20%</td>
+        </tr>
+        <tr>
+        <td>Endterm</td> <td>20%</td>
+        </tr>
+        <tr>
+        <td>Final</td> <td>20%</td>
+        </tr>
+        </tbody>
+        </table> 
+
+      <h3><b>Policies</b></h3>
+      <p>
+      <a name="pol" id="pol"></a>
+      </p>
+
+      <p><b>Late Policy: </b> submit within 24 hours of deadline - 90%, within 48 hours - 70%, over 48 hours - 0 point, 0 if code not compile
+
+      </p><p><b>Academic Integrity: </b>
+      Students must follow the instructions from the (<a href="https://web.stevens.edu/honor/about.html">Stevens Honor system</a>). This course will have a zero-tolerance policy regarding plagiarism. You should complete all the assignments and quizzes on your own. 
+
+    You can help your classmates with questions such as how to use the programming language, what the library classes or methods do, what the errors mean, and how to interpret the assignment instructions. 
+
+  You are encouraged to come to both the instructor and the CAs' office hours regarding any questions you have, or email your questions to both the instructors or the CAs. However, you may not give or receive help from others (except the CA) with the actual implementation or answers for any of the assignments or tests. Do not show or share your code with others, and do not view or copy source code from others. For the same reason, you are not allowed to copy and paste a code snippet you found online in the assignments. 
+
+All electronic work submitted for this course will be archived and subjected to automatic plagiarism detection. Whenever in doubt, please seek clarifications from the instructor. Students who violate the academic intergrity principle of Stevens will be immediately reported to the department and the school (which could leave a permanent mark on the transcript).</p>
+
+<p>If you need special accommodations because of a disability, please contact the instructor through emails.</p>
+
+<div class="page-header"></div>
+
+      
+
+
+
+        
+    </div>
+</div>
+
+<p><a href="https://gangw.cs.illinois.edu/class/cs463/" target="_blank" style="color: gray">Thanks to Prof. Gang Wang for the website template</a></p>
+
+<script src="./cs284_files/jquery-1.10.2.min.js"></script>
+<script src="./cs284_files/bootstrap.min.js"></script>
+
+</div></body></html>
