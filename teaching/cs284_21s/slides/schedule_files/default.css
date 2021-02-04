@@ -1,0 +1,183 @@
+@import url("main.css");
+
+#nav {
+  text-align: center;
+  margin-top: 1em;
+}
+
+.menu {
+  box-sizing: border-box;
+}
+
+.menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu ul, .menu ul li {
+  position: relative;
+}
+
+.menu .menu-horizontal {
+  display: block;
+}
+
+.menu-horizontal ul {
+  display: inline-block;
+}
+
+.menu-horizontal ul li {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.menu li a {
+  display: block;
+  padding: 0.5em 1em;
+  color: #555;
+  text-decoration: none;
+}
+
+.menu li.menu-selected a {
+  font-weight: bold;
+  color: #000;
+}
+
+.menu a:hover {
+  background-color: #eee;
+}
+
+.lower_roman + ol,
+.lower_roman + ul {
+  list-style-type: lower-roman;
+}
+.upper_roman + ol,
+.upper_roman + ul {
+  list-style-type: upper-roman;
+}
+.lower_alpha + ol,
+.lower_alpha + ul {
+  list-style-type: lower-alpha;
+}
+.upper_alpha + ol,
+.upper_alpha + ul {
+  list-style-type: upper-alpha;
+}
+.lower_greek + ol,
+.lower_greek + ul {
+  list-style-type: lower-greek;
+}
+.lower_latin + ol,
+.lower_latin + ul {
+  list-style-type: lower-latin;
+}
+.upper_latin + ol,
+.upper_latin + ul {
+  list-style-type: upper-latin;
+}
+.none + ol,
+.none + ul {
+  list-style-type: none;
+}
+.disc + ol,
+.disc + ul {
+  list-style-type: disc;
+}
+.circle + ol,
+.circle + ul {
+  list-style-type: circle;
+}
+.square + ol,
+.square + ul {
+  list-style-type: square;
+}
+.decimal + ol,
+.decimal + ul {
+  list-style-type: decimal;
+}
+.decimal_leading_zero + ol,
+.decimal_leading_zero + ul {
+  list-style-type: decimal-leading-zero;
+}
+header {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+@media only screen and (min-width: 50em) {
+  header {
+    font-size: 1.5em;
+  }
+}
+header h1 {
+  margin-bottom: 0;
+}
+header h3 {
+  margin-top: 0;
+  margin-bottom: 0.3em;
+}
+section.content {
+  width: 100%;
+  margin: 30px auto;
+}
+@media only screen and (min-width: 52em) {
+  section.content {
+    width: 50em;
+  }
+}
+/* Taken from skeleton:
+   https://github.com/dhg/Skeleton/ */
+th,
+td {
+  padding: 0.5em 1em;
+  text-align: left;
+  border-bottom: 1px solid #E1E1E1;
+}
+th:first-child,
+td:first-child {
+  padding-left: 0;
+}
+th:last-child,
+td:last-child {
+  padding-right: 0;
+}
+div.notice {
+  position: relative;
+  border-radius: 5px;
+  padding: 0.5em;
+  padding-left: 2em;
+  margin-bottom: 0.5em;
+}
+div.notice p {
+  margin: 0;
+}
+div.notice p + p {
+  margin-top: 1em;
+}
+div.notice:before {
+  position: absolute;
+  left: 0.5em;
+  top: 9px;
+}
+div.notice.normal {
+  background-color: #ffff9e;
+  border: 1px solid #f0c000;
+}
+div.notice.normal:before {
+  content: url("../icons/notice.png");
+}
+div.notice.warning {
+  background-color: #fcc;
+  border: 1px solid #b97b7b;
+}
+div.notice.warning:before {
+  content: url("../icons/warning.png");
+}
+div.notice.info:before {
+  content: url("../icons/info.png");
+}
+div.notice.info {
+  background-color: #DAECF8;
+  border: 1px solid #6D8290;
+}

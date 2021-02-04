@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<!-- saved from url=(0042)https://gangw.cs.illinois.edu/class/cs463/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>cs284</title>
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" href="https://gangw.cs.illinois.edu/image/illinois.png">
+    
+    <link href="https://www.cs.stevens.edu/~xliu127/teaching/cs284/cs284_files/bootstrap.css" type="text/css" rel="stylesheet" media="screen">
+   <link href="https://www.cs.stevens.edu/~xliu127/teaching/cs284/cs284_files/non-responsive.css" rel="stylesheet">
+   
+    
+<style type="text/css">
+  body {
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+  .sidebar-nav {
+    padding: 0px 0;
+  }
+  .page-header {
+    border-bottom: 1px solid #ADA9A9;
+    margin-bottom: 10px;
+  }
+  
+</style>
+
+<style type="text/css">
+</style>
+
+</head>
+ 
+
+<body style="">
+<div class="container">  
+    <div class="row">
+    <div class="col-lg-12">
+
+      <div class="page-header">
+      <h2><b>CS 284: Data Structures</b></h2>
+      <p> 
+      <!--
+      <a href="index.html">Home</a> |       
+      <a href="project.html">Project</a>|
+      -->
+      <a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284/resources.html">Resources</a> |
+      <a href="http://www.cs.stevens.edu/~xliu127/teaching/cs284/faq.html">FAQ</a> 
+      
+      </p>
+
+      </div>
+
+      <div class="bs-component">
+
+      <table class="table table-bordered table-striped">
+        <tbody>
+        <tr>
+        <td>Instructor</td> <td><a href="https://www.cs.stevens.edu/index.html">Susan (Xueqing) Liu</a> (xueqing.liu AT stevens DOT edu)</td>
+        </tr>
+        <tr>
+        <td>Meeting</td> <td>MWF: 11:00 AM - 11:50 AM, Pierce Hall 120</td>
+        </tr>
+        <tr>
+        <td>Susan's Office Hour</td> <td>Wed: 1:30 PM - 3:30 PM at GS 250</td>
+        </tr>
+        <tr>
+        <td>CAs</td> 
+        <td>
+        Joshua Schmidt, Office hour: : 10:00 AM - 10:45 AM at Siebel 4309 
+        </td>
+        
+        </tr></tbody>
+        </table> 
+
+<!--
+      <p style="color:red;"><b>The information below is based on the previous offering of this class (for reference only). </br>
+      The information is subject to potential changes before the start of the Spring 2020 semester.</b></p>
+-->
+
+<!--      <h3><b>Class Description</b> </h3>
+
+      <p>Program security, trusted base, privacy, anonymity, non-interference, information flow, confinement, advanced auditing, forensics, intrusion detection, key management and distribution, policy composition and analysis, formal approaches to specification and verification of secure systems and protocols, and topics in applied cryptography. Course Information: Same as ECE 424. 3 undergraduate hours. 3 or 4 graduate hours. Prerequisite: CS 461. Recommended: CS 475.
+      </p>
+
+     
+
+     <p><b>Learning Goals: </b>
+      Identify and address privacy issues in social networks; 
+      Apply machine learning to security and address adversarial machine learning; 
+      Use crypto constructs (homomorphic encryption, multi-party computation, etc.); 
+      Identify and address issues with de-identification; 
+      Use hardware designed to support trusted computing; 
+      Reason about information flow, computational security for encryption; 
+      Recognize threats and design mitigations for security in key sectors (healthcare, power grid, transportation, etc.); 
+      Understand architecture and recognize threats for smartphone security; 
+      Recognize issues with web privacy (especially cookies and advertising); 
+      Analyze human factors; 
+      Recognize and mitigate insider threats; 
+      Understand architecture and recognize threats for security in the Internet of Things (IoT); 
+      Recognize drivers and tactics in cyber warfare, and other topics of emerging interest in security and privacy.
+      </p>
+
+
+<p><b>Important note: </b> It assumes a basic knowledge of the area such as the material covered by Computer Security I (CS 461). This semester it will expect ability to program in Java and C or C++.</p>
+
+
+      <h3><b>Expected Work</b></h3>
+      
+      <p><b>Participation:</b> Students are required to attend all the lectures. Please inform the instructor and the TA via email if you cannot make it to the class due to travel or sickness. </p> 
+
+      <p><b>Quizzes:</b> Students are expected to complete a short quiz within 24 hours after each lecture. The quiz contains 4-5 single-choice or multi-choice questions. The quiz is closely related to the respective lecture and is designed to be light-weighted (and hopefully fun) to improve student engagement during the lecture. Quiz is not graded --- students will receive points by simply trying them. </p> 
+
+      <p><b>Machine Problem (MP):</b> Students are expected to work on 4-5 MPs throughout the semester. The projects will involve hand-on programming and data analysis, covering various topics that complement the lecture topics. Example topics include tracking user location based on social network data, interacting with Bitcoin APIs, multiple parties performing joint machine-learning without directly exchanging data. The list of project topics will be released later in Spring 2020. 
+      </p><p><b>Survey paper:</b> This is for 4-credit student only. 
+      </p>
+
+      <h3><b>Get Ready for the Class</b></h3>
+      <ul>
+        <li>Make sure you have signed up to the <a href="https://piazza.com/class/k58g8mvy1vf28e">Piazza</a> group of this class </li>
+        <li>Check if you have access to the <a href="https://learn.illinois.edu/course/view.php?id=43143">quiz release page</a> </li>
+        
+        <li>Create your git repo via this <a href="https://edu.cs.illinois.edu/create-ghe-repo/cs463-sp20/">one-time link</a></li>
+        <li>Learn how to use git. Some helpful information <a href="https://piazza.com/class/k58g8mvy1vf28e?cid=7">here</a> </li>
+
+
+        
+      </ul>
+
+
+       <h3><b>Class Schedule</b></h3>
+      <a name="class" id="class"></a>
+        
+        <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+          <th>Date</th>
+          <th>Topic</th>
+          <th>Note</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr><td>Week 1: Jan 21</td> 
+        <td>
+        Course Plan (GW) <a href="https://gangw.cs.illinois.edu/class/cs463/463.0-course-plan.pdf">slides</a>
+        </td>
+        <td>MP1 open</td></tr>
+
+        <tr><td>Week 1: Jan 23</td> 
+        <td>Introduction (GW) <a href="https://gangw.cs.illinois.edu/class/cs463/463.1-Introduction.pdf">slides</a> </td>
+        <td></td></tr>
+
+        <tr><td>Week 2: Jan 28</td> 
+        <td>Online Social Networks (GW) <a href="https://gangw.cs.illinois.edu/class/cs463/463.2-Social-Networks.pdf">slides</a> </td>
+        <td></td></tr>
+
+        <tr><td>Week 2: Jan 30</td> 
+        <td>Machine Learning 1 (GW)</td>
+        <td></td></tr>
+        <tr><td>Week 3: Feb 4</td> 
+        <td>Machine Learning 2 (GW)</td>
+        <td>MP1 due</td></tr>
+
+        <tr><td>Week 3: Feb 6</td> 
+        <td>Crypto Constructs (GW)</td>
+        <td>MP2 open</td></tr>
+        <tr><td>Week 4: Feb 11</td> 
+        <td>De-Identification (GW)</td>
+        <td></td></tr>
+
+        <tr><td>Week 4: Feb 13</td> 
+        <td>Trusted Computing 1 (HB)</td>
+        <td>MP2 due</td></tr>
+        <tr><td>Week 5: Feb 18</td> 
+        <td>Trusted Computing 2 (HB)</td>
+        <td>MP3 open</td></tr>
+
+        <tr><td>Week 5: Feb 20</td> 
+        <td>Information Flow (GW)</td>
+        <td></td></tr>
+
+        <tr><td>Week 6: Feb 25</td> 
+        <td>Crypto Models (GW)</td>
+        <td></td></tr>
+
+        <tr><td>Week 6: Feb 27</td> 
+        <td>No Class</td>
+        <td></td></tr>
+        <tr><td>Week 7: Mar 3</td> 
+        <td>Crypto Models (GW)</td>
+        <td>MP3 due</td></tr>
+
+        <tr><td>Week 7: Mar 5</td> 
+        <td>Health IT</td>
+        <td></td></tr>
+        <tr><td>Week 8: Mar 10</td> 
+        <td></td>
+        <td>Midterm</td></tr>
+
+        <tr><td>Week 8: Mar 12</td> 
+        <td>Bitcoin (GW)</td>
+        <td>MP4 open</td></tr>
+        <tr><td>Week 9: Mar 17</td> 
+        <td>Spring Break</td>
+        <td></td></tr>
+
+        <tr><td>Week 9: Mar 19</td> 
+        <td>Spring Break</td>
+        <td></td></tr>
+        <tr><td>Week 10: Mar 24</td> 
+        <td>Smartphones 1 (GW)</td>
+        <td></td></tr>
+
+        <tr><td>Week 10: Mar 26</td> 
+        <td>Smartphones 2 (GW)</td>
+        <td>Survey Proposal due</td></tr>
+        <tr><td>Week 11: Mar 31</td> 
+        <td>Web Privacy (GW)</td>
+        <td></td></tr>
+
+        <tr><td>Week 11: Apr 2</td> 
+        <td>Automobiles (GW)</td>
+        <td></td></tr>
+        <tr><td>Week 12: Apr 7</td> 
+        <td>Internet Security (GW)</td>
+        <td>MP4 due</td></tr>
+
+        <tr><td>Week 12: Apr 9</td> 
+        <td>Automobiles AML (GW)</td>
+        <td>MP5 open</td></tr>
+        <tr><td>Week 13: Apr 14</td> 
+        <td>Code Stylometry (GW)</td>
+        <td></td></tr>
+
+        <tr><td>Week 13: Apr 16</td> 
+        <td>Smart Grid (CG)</td>
+        <td></td></tr>
+        <tr><td>Week 14: Apr 21</td> 
+        <td>Hardware Side Channels (CF)</td>
+        <td></td></tr>
+
+        <tr><td>Week 14: Apr 23</td> 
+        <td>Insider Threats (GW)</td>
+        <td></td></tr>
+        <tr><td>Week 15: Apr 28</td> 
+        <td>Cyber Warfare (GW)</td>
+        <td></td></tr>
+
+        <tr><td>Week 15: Apr 30</td> 
+        <td>Conclusion (GW)</td>
+        <td>MP5 due</td></tr>
+
+        <tr><td>Week 16: May 5</td> 
+        <td>PM 5 Presentation</td>
+        <td></td></tr>
+
+        <tr><td>Week 16: May 7</td> 
+        <td>Reading day, no class</td>
+        <td></td></tr>
+
+        <tr><td>Week 16: May 8</td> 
+        <td>Final exam (7pm - 10pm), SC0216</td>
+        <td></td></tr>
+
+        <tr><td>Week 16: May 10</td> 
+        <td></td>
+        <td>Survey due (Sunday midnight)</td></tr>
+
+
+
+        </tbody>
+        </table> 
+
+
+
+      
+      <h3><b>Grading</b></h3>
+      <p>
+      <a name="grades" id="grades"></a>
+      </p>
+
+
+      <table class="table table-bordered table-striped">
+        <tbody>
+        <tr>
+        <td>Class attendance and participation</td><td>15%</td>
+        </tr>
+        <tr>
+        <td>Midterm</td><td>15%</td>
+        </tr>
+        <tr>
+        <td>Final</td><td>30%</td>
+        </tr>
+        <tr>
+        <td>MP1</td> <td>6%</td>
+        </tr>
+        <tr>
+        <td>MP2</td> <td>7%</td>
+        </tr>
+        <tr><td>MP3</td> <td>8%</td>
+        </tr>
+        <tr>
+        <td>MP4</td> <td>9%</td>
+        </tr>
+        <tr>
+        <td>MP5</td> <td>10%</td>
+        </tr>
+        </tbody>
+        </table> 
+      <p>This will be used for 100% of the grade for 3-credit students and 75% of the grade for 4-credit students. 4-credit students are expected to complete a survey paper (25% of the total grade). Letter grades are assigned based on how well you do (e.g., 90+ means "A"), not based on your performance relative to other students. We do not curve the grades in any way.
+
+</p>
+
+
+
+      <h3><b>Policies</b></h3>
+      <p>
+      <a name="pol" id="pol"></a>
+      </p>
+
+      <p><b>Late Policy: </b>Please see the individual assignment instructions. 
+
+      </p><p><b>Academic Integrity: </b>
+      Students must follow the university's guidelines on academic conduct (<a href="https://provost.illinois.edu/policies/policies/academic-integrity/students-quick-reference-guide-to-academic-integrity/">quick link</a>). This course will have a zero-tolerance policy regarding plagiarism. You should complete all the assignments and quizzes on your own. In this course, you can help your classmates with questions such as how to use the programming language, what the library classes or methods do, what the errors mean, and how to interpret the assignment instructions. You are encouraged to post any such questions to the course discussion forum, and are also encouraged to answer questions posted to the forum from other students. However, you may not give or receive help from others (except the TA) with writing your program code or writing your answers for any of the assignments or tests. Do not show or share your program code with others, and do not view or copy source code from others. All electronic work submitted for this course will be archived and subjected to automatic plagiarism detection. Whenever in doubt, please seek clarifications from the instructor. Students who violate Academic Integrity policies will be immediately reported to the department and the college (which could leave a permanent mark on the transcript).</p>
+
+      <p> Note: students who are struggling with problems in a program assignment may have trouble interpreting an error message or diagnosing an error in their source code. I encourage you to ask questions about the interpretation of error messages on the forum, and to offer constructive advice to fellow students who run into such problems. If you are asking for help with an error or problem, describe it without showing code where possible. When necessary, you may post a short segment of your code that you believe contains the problem (a handful of lines where you believe the problem to be). However, refrain from posting significant portions of your problem solution to the course discussion board. Posts with excessive code may be deleted without notice. Ask the instructor if you are unsure what you are about to post is appropriate. Other than small code segments posted to the course discussion board, you should not use any mechanisms to share or view another student's code, and should not post your own code in any publicly accessible location. </p>
+
+      <p><b>Special Accommodations: </b>If you need special accommodations because of a disability, please contact the instructor in the first week of classes.</p>
+
+
+<div class="page-header"></div>
+
+      
+
+
+
+        
+    </div>
+</div>
+
+
+
+<script src="./cs284_files/jquery-1.10.2.min.js"></script>
+<script src="./cs284_files/bootstrap.min.js"></script> -->
+
+</div></body></html>

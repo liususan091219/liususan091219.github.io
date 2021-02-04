@@ -1,0 +1,26 @@
+    <!DOCTYPE html>
+<html>
+<head>
+    <title>Login page</title>
+</head>
+<body>
+<form>
+    <label for="pswd">Enter your password: </label>
+    <input type="password" id="pswd">
+    <input type="button" value="Submit" onclick="checkPswd('https://www.cs.stevens.edu/~xliu127/teaching/cs284_20s/slides/hashing_2.pdf');" />
+</form>
+<!--Function to check password the already set password is admin-->
+<script type="text/javascript">
+    function checkPswd(x) {
+        var confirmPassword = "goduck";
+        var password = document.getElementById("pswd").value;
+        if (password == confirmPassword) {
+             window.location=x;
+        }
+        else{
+            alert("Passwords do not match.");
+        }
+    }
+</script>
+</body>
+</html>
