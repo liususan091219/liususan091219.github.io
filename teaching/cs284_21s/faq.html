@@ -54,6 +54,8 @@
 
       </div>
 
+      
+
       <div class="bs-component">
 
   <h3><b>FAQ</b> </h3>
@@ -123,7 +125,25 @@
     </div>
 </div>
 
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyDi4vzj-F-hAEoSasPncMAX3RVT0ipF4lE",
+    authDomain: "cs284bot.firebaseapp.com",
+    projectId: "cs284bot",
+    storageBucket: "cs284bot.appspot.com",
+    messagingSenderId: "65206428961",
+    appId: "1:65206428961:web:2e01712b0d7f2aef94ca60"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+</script>
 
 <script src="./cs284_files/jquery-1.10.2.min.js"></script>
 <script src="./cs284_files/bootstrap.min.js"></script>
