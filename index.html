@@ -29,14 +29,38 @@
 }
 </style>
 </head>
-<body data-gr-c-s-loaded="true"><div id="StayFocusd-infobar" style="display: none; top: 119px;">
+<body data-gr-c-s-loaded="true">
+
+  <div id="StayFocusd-infobar" style="display: none; top: 119px;">
     
     <span id="StayFocusd-infobar-msg"></span>
     <span id="StayFocusd-infobar-links">
         <a id="StayFocusd-infobar-never-show">hide forever</a>&nbsp;&nbsp;|&nbsp;&nbsp;
         <a id="StayFocusd-infobar-hide">hide once</a>
     </span>
-</div>
+
+
+  </div>
+
+  <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyDi4vzj-F-hAEoSasPncMAX3RVT0ipF4lE",
+    authDomain: "cs284bot.firebaseapp.com",
+    projectId: "cs284bot",
+    storageBucket: "cs284bot.appspot.com",
+    messagingSenderId: "65206428961",
+    appId: "1:65206428961:web:2e01712b0d7f2aef94ca60"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+</script>
 
 
 <!-- Navigation -->
