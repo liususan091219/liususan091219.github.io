@@ -1,0 +1,8 @@
+PWD /Users/xqq/Documents/work/personal_website2/liususan091219.github.io/teaching/cs284_20s
+INPUT /usr/local/texlive/2016/texmf.cnf
+INPUT /usr/local/texlive/2016/texmf-dist/web2c/texmf.cnf
+INPUT /usr/local/texlive/2016/texmf-var/web2c/pdftex/pdflatex.fmt
+INPUT /Users/xqq/Documents/work/personal_website2/liususan091219.github.io/teaching/cs284_20s/cs284.html
+OUTPUT /Users/xqq/Documents/work/personal_website2/liususan091219.github.io/teaching/cs284_20s/cs284.log
+OUTPUT /Users/xqq/Documents/work/personal_website2/liususan091219.github.io/teaching/cs284_20s/cs284.pdf
+INPUT /usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map
