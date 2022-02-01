@@ -1,0 +1,4 @@
+artifact_location: tmdev.cs.stevens.edu:4040/1
+experiment_id: '1'
+lifecycle_stage: active
+name: my-experiment
