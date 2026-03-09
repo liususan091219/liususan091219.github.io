@@ -37,19 +37,22 @@
 
   var ALL_TABS = ['tabular', 'feature'];
 
-  // Feature vector: full hierarchical decoupled features
+  // Feature vector: bias + hierarchical decoupled features (action-centric)
+  // Bias:        1 (constant)                                       = 1
   // Individual:  1[a=k] (4)  +  1[r=i] (5)  +  1[c=j] (7)         = 16
-  // Pairwise:    1[a=k,r=i] (20) + 1[a=k,c=j] (28) + 1[r=i,c=j] (35) = 83
+  // Pairwise:    1[a=k,r=i] (20) + 1[a=k,c=j] (28)                 = 48
   // Three-way:   1[a=k,r=i,c=j] (4×5×7)                            = 140
-  // Total: 16 + 83 + 140 = 239 features
-  // Q̂(s,a) = w_a + w_r + w_c + w_{a,r} + w_{a,c} + w_{r,c} + w_{a,r,c}
+  // Total: 1 + 16 + 48 + 140 = 205 features
+  // Q̂(s,a) = w_bias + w_a + w_r + w_c + w_{a,r} + w_{a,c} + w_{a,r,c}
   // Each (s,a) activates exactly 7 features (one from each group).
-  // Lower-order features provide generalization (shared across states/actions);
-  // the three-way feature provides cell-specific action precision.
-  var NUM_FEATURES = 4 + ROWS + COLS + 4 * ROWS + 4 * COLS + ROWS * COLS + 4 * ROWS * COLS; // 239
+  // All pairwise/three-way features include the action, so every feature
+  // helps differentiate actions. The bias provides a global baseline.
+  var NUM_FEATURES = 1 + 4 + ROWS + COLS + 4 * ROWS + 4 * COLS + 4 * ROWS * COLS; // 205
   var FEATURE_LABELS = (function () {
     var labels = [];
     var dirLabels = ['N', 'S', 'W', 'E'];
+    // Bias (1)
+    labels.push('bias');
     // Individual: action (4)
     for (var a = 0; a < 4; a++) labels.push('1[a=' + dirLabels[a] + ']');
     // Individual: row (5)
@@ -66,12 +69,6 @@
     for (var a3 = 0; a3 < 4; a3++) {
       for (var c2 = 0; c2 < COLS; c2++) {
         labels.push('1[a=' + dirLabels[a3] + ',c=' + (c2 + 1) + ']');
-      }
-    }
-    // Pairwise: row × col (35)
-    for (var r3 = 0; r3 < ROWS; r3++) {
-      for (var c3 = 0; c3 < COLS; c3++) {
-        labels.push('1[r=' + (r3 + 1) + ',c=' + (c3 + 1) + ']');
       }
     }
     // Three-way: action × row × col (140)
@@ -137,9 +134,9 @@
     },
     'feature': {
       title: 'Feature-Based Q-Learning (Linear Approximation)',
-      description: 'Q\u0302(s,a) = w \u00b7 \u03C6(s,a) using hierarchical indicator features: individual 1[a], 1[r], 1[c] (16) + pairwise 1[a,r], 1[a,c], 1[r,c] (83) + three-way 1[a,r,c] (140) = 239 features total. Each (s,a) activates exactly 7 features (one per group). Lower-order features generalize across states/actions; the three-way feature provides cell-specific precision.',
+      description: 'Q\u0302(s,a) = w \u00b7 \u03C6(s,a) using a bias plus hierarchical action-centric indicator features: bias (1) + individual 1[a], 1[r], 1[c] (16) + pairwise 1[a,r], 1[a,c] (48) + three-way 1[a,r,c] (140) = 205 features total. Each (s,a) activates exactly 7 features (one per group). All pairwise and three-way features include the action, helping differentiate actions at every granularity.',
       formula: 'w \u2190 w + \u03B7 \u00b7 (r + \u03B3 max_a\' Q\u0302(s\',a\') \u2212 Q\u0302(s,a)) \u00b7 \u03C6(s,a)',
-      diff: '239 weights (more than tabular\u2019s 140), but structured: each Q-value is a sum of 7 weights from different granularity levels. The lower-order weights act as regularization, sharing information across similar states and actions.'
+      diff: '205 weights (more than tabular\u2019s 140), but structured: each Q-value is a sum of 7 weights from different granularity levels. The bias provides a global baseline; lower-order weights share information across similar states and actions.'
     }
   };
 
@@ -181,17 +178,17 @@
   }
 
   // ============ FEATURE VECTOR ============
-  // Layout: [0..3] a | [4..8] r | [9..15] c | [16..35] a×r | [36..63] a×c | [64..98] r×c | [99..238] a×r×c
+  // Layout: [0] bias | [1..4] a | [5..9] r | [10..16] c | [17..36] a×r | [37..64] a×c | [65..204] a×r×c
   function featureVector(r, c, dirIndex) {
     var phi = new Array(NUM_FEATURES);
     for (var i = 0; i < NUM_FEATURES; i++) phi[i] = 0;
-    phi[dirIndex] = 1;                                          // 1[a]
-    phi[4 + r] = 1;                                             // 1[r]
-    phi[9 + c] = 1;                                             // 1[c]
-    phi[16 + dirIndex * ROWS + r] = 1;                          // 1[a,r]
-    phi[36 + dirIndex * COLS + c] = 1;                          // 1[a,c]
-    phi[64 + r * COLS + c] = 1;                                 // 1[r,c]
-    phi[99 + dirIndex * ROWS * COLS + r * COLS + c] = 1;        // 1[a,r,c]
+    phi[0] = 1;                                                 // bias
+    phi[1 + dirIndex] = 1;                                      // 1[a]
+    phi[5 + r] = 1;                                             // 1[r]
+    phi[10 + c] = 1;                                            // 1[c]
+    phi[17 + dirIndex * ROWS + r] = 1;                          // 1[a,r]
+    phi[37 + dirIndex * COLS + c] = 1;                          // 1[a,c]
+    phi[65 + dirIndex * ROWS * COLS + r * COLS + c] = 1;        // 1[a,r,c]
     return phi;
   }
 
