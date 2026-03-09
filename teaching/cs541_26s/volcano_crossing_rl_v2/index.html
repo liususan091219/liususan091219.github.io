@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!--
+     ______                            __
+    / ____/___  ____ ___  ____  __  __/ /____  _____
+   / /   / __ \/ __ `__ \/ __ \/ / / / __/ _ \/ ___/
+  / /___/ /_/ / / / / / / /_/ / /_/ / /_/  __/ /
+  \____/\____/_/ /_/ /_/ .___/\__,_/\__/\___/_/
+                      /_/
+          Created with Perplexity Computer
+          https://www.perplexity.ai/computer
+  -->
+
+  <!-- Perplexity Computer Attribution — SEO Meta Tags -->
+  <meta name="generator" content="Perplexity Computer">
+  <meta name="author" content="Perplexity Computer">
+  <meta property="og:see_also" content="https://www.perplexity.ai/computer">
+  <link rel="author" href="https://www.perplexity.ai/computer">
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CS541 Feature-Based Q-Learning</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="./base.css" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="app-header">
+    <div style="display:flex;align-items:baseline;flex-wrap:wrap;gap:var(--space-2);">
+      <h1>CS541</h1>
+      <span class="subtitle">Feature-Based Q-Learning</span>
+    </div>
+    <button class="theme-toggle" data-theme-toggle aria-label="Switch to dark mode">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    </button>
+  </header>
+
+  <!-- INSTRUCTIONS -->
+  <div class="app-instructions">
+    <p>
+      <strong>How it works:</strong> The agent starts at <strong>(5,1)</strong> and explores a hidden 5&times;7 grid.
+      It does not know where rewards or penalties are &mdash; it can only observe
+      <strong>(action, reward, next&nbsp;state)</strong> after each step.
+      Switch tabs to compare <strong>Tabular Q-Learning</strong> (140 entries)
+      vs <strong>Feature-Based Q-Learning</strong> (16 weights).
+    </p>
+  </div>
+
+  <!-- TAB BAR -->
+  <nav class="tab-bar" id="tab-bar">
+    <button class="tab-btn active" data-tab="tabular">Tabular Q-Learning</button>
+    <button class="tab-btn" data-tab="feature">Feature-Based Q-Learning</button>
+  </nav>
+
+  <!-- MAIN LAYOUT -->
+  <main class="app-main">
+    <!-- LEFT: Controls Panel -->
+    <aside class="controls-panel">
+      <h2>Parameters</h2>
+
+      <div class="param-group" id="param-group">
+        <!-- Column headers -->
+        <div class="param-header-row no-learned">
+          <span class="param-header-label"></span>
+          <span class="param-header-col">True Value</span>
+        </div>
+
+        <div class="param-row">
+          <span class="param-label"><code>moveReward</code></span>
+          <div class="param-values">
+            <input type="number" id="moveReward" class="param-input" value="-0.1" step="0.1" />
+          </div>
+        </div>
+        <div class="param-hint">Reward per step (non-terminal)</div>
+
+        <div class="param-row">
+          <span class="param-label"><code>passReward</code></span>
+          <div class="param-values">
+            <input type="number" id="passReward" class="param-input" value="20" step="1" />
+          </div>
+        </div>
+        <div class="param-hint">Goal reward at (1,7)</div>
+
+        <div class="param-row">
+          <span class="param-label"><code>smallReward</code></span>
+          <div class="param-values">
+            <input type="number" id="smallReward" class="param-input" value="2" step="0.5" />
+          </div>
+        </div>
+        <div class="param-hint">Small reward at start (5,1)</div>
+
+        <div class="param-row">
+          <span class="param-label"><code>volcanoReward</code></span>
+          <div class="param-values">
+            <input type="number" id="volcanoReward" class="param-input" value="-50" step="1" />
+          </div>
+        </div>
+        <div class="param-hint">Volcano penalty (column 6)</div>
+
+        <div class="param-row">
+          <span class="param-label"><code>slipProb</code></span>
+          <div class="param-values">
+            <input type="number" id="slipProb" class="param-input" value="0.1" step="0.05" min="0" max="1" />
+          </div>
+        </div>
+        <div class="param-hint">Probability of random action</div>
+
+        <div class="param-row">
+          <span class="param-label"><code>discount</code></span>
+          <div class="param-values">
+            <input type="number" id="discount" class="param-input" value="0.9" step="0.05" min="0" max="1" />
+          </div>
+        </div>
+        <div class="param-hint">Discount factor &gamma;</div>
+
+        <div class="param-row">
+          <span class="param-label"><code>learningRate</code></span>
+          <div class="param-values">
+            <input type="number" id="learningRate" class="param-input" value="0.01" step="0.01" min="0.001" max="1" />
+          </div>
+        </div>
+        <div class="param-hint">Step-size &eta; for Q-learning updates</div>
+      </div>
+
+      <!-- Exploration Policy (epsilon-decay) -->
+      <div class="exploration-group" id="exploration-group-td">
+        <h3>Exploration (&epsilon;-decay)</h3>
+        <p class="param-hint" style="margin-bottom:var(--space-3)">&epsilon; decays exponentially each episode: &epsilon;(k) = &epsilon;<sub>0</sub> &middot; decay<sup>k</sup>, floored at &epsilon;<sub>min</sub>.</p>
+        <div class="eps-decay-params">
+          <div class="eps-decay-row">
+            <label class="eps-decay-label" for="eps-init">&epsilon;<sub>0</sub></label>
+            <input type="number" id="eps-init" class="param-input eps-input" value="1.0" min="0" max="1" step="0.1" />
+          </div>
+          <div class="eps-decay-row">
+            <label class="eps-decay-label" for="eps-decay">decay</label>
+            <input type="number" id="eps-decay" class="param-input eps-input" value="0.9995" min="0" max="1" step="0.0001" />
+          </div>
+          <div class="eps-decay-row">
+            <label class="eps-decay-label" for="eps-min">&epsilon;<sub>min</sub></label>
+            <input type="number" id="eps-min" class="param-input eps-input" value="0.01" min="0" max="1" step="0.01" />
+          </div>
+        </div>
+        <div class="eps-current-display">
+          Current: <strong>&epsilon; = <span id="eps-current-val">1.0</span></strong> &mdash; <span id="eps-current-stage">Episode 0</span>
+        </div>
+      </div>
+
+      <h2>Actions</h2>
+      <!-- TD actions: run N episodes -->
+      <div class="actions-group" id="actions-td">
+        <div class="td-run-row">
+          <label class="param-label" for="td-num-episodes"><code>episodes</code></label>
+          <input type="number" id="td-num-episodes" class="param-input" value="10000" min="100" step="1000" style="width:96px" />
+        </div>
+        <div class="td-run-row">
+          <label class="param-label" for="td-max-steps"><code>max_steps</code></label>
+          <input type="number" id="td-max-steps" class="param-input" value="100" min="10" step="10" style="width:96px" />
+        </div>
+        <button class="btn btn-primary" id="btn-run-td" aria-label="Run training">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l14 9-14 9V3z"/></svg>
+          Train
+        </button>
+        <button class="btn btn-danger" id="btn-reset-td" aria-label="Reset">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+          Reset
+        </button>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-display">
+        <div class="stat-item">
+          <span class="stat-label">Episodes</span>
+          <span class="stat-value mono" id="stat-samples">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Avg Utility</span>
+          <span class="stat-value mono" id="stat-avg-utility">&mdash;</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label stat-label-value">max Q(start, a)</span>
+          <span class="stat-value mono highlight" id="stat-value">&mdash;</span>
+        </div>
+      </div>
+
+      <!-- Q(s,a) table for tabular tab -->
+      <div class="q-table-container" id="q-table-container">
+        <h3>Q(s, a) Table</h3>
+        <div class="q-table-scroll">
+          <table class="q-table">
+            <thead>
+              <tr>
+                <th>State</th>
+                <th>N</th>
+                <th>S</th>
+                <th>W</th>
+                <th>E</th>
+              </tr>
+            </thead>
+            <tbody id="q-table-body">
+              <!-- JS populates -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Weight vector for feature-based tab -->
+      <div class="w-table-container" id="w-table-container" style="display:none">
+        <h3>Weight Vector w (16 weights)</h3>
+        <div class="q-table-scroll">
+          <table class="q-table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>Weight</th>
+              </tr>
+            </thead>
+            <tbody id="w-table-body">
+              <!-- JS populates -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </aside>
+
+    <!-- RIGHT: Grid + Results -->
+    <section class="content-panel">
+      <!-- Educational Info Panel -->
+      <div class="edu-panel" id="edu-panel">
+        <!-- JS populates based on active tab -->
+      </div>
+
+      <div class="section-label">Grid World (5 &times; 7)</div>
+
+      <div class="grid-container">
+        <div class="grid-world" id="grid-world">
+          <!-- JS will populate cells -->
+        </div>
+      </div>
+
+      <div class="grid-legend" id="grid-legend">
+        <div class="legend-item"><div class="legend-swatch swatch-start"></div> Start (5,1)</div>
+        <div class="legend-item"><div class="legend-swatch swatch-goal"></div> Goal (1,7)</div>
+        <div class="legend-item"><div class="legend-swatch swatch-volcano"></div> Volcano (col 6)</div>
+        <div class="legend-item"><div class="legend-swatch swatch-small-reward"></div> Small Reward (5,1)</div>
+      </div>
+
+      <div class="results-section">
+        <div class="results-header">
+          <div class="section-label" style="margin-bottom:0">Sampled Episodes</div>
+        </div>
+        <div class="path-log" id="path-log">
+          <div class="path-log-empty" id="path-log-empty">
+            No episodes sampled yet. Click <strong>Train</strong> to begin.
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <a href="https://www.perplexity.ai/computer" target="_blank" rel="noopener noreferrer">
+      Created with Perplexity Computer
+    </a>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
+</html>
