@@ -125,7 +125,7 @@
         <div class="param-row">
           <span class="param-label"><code>learningRate</code></span>
           <div class="param-values">
-            <input type="number" id="learningRate" class="param-input" value="0.01" step="0.01" min="0.001" max="1" />
+            <input type="number" id="learningRate" class="param-input" value="0.1" step="0.01" min="0.001" max="1" />
           </div>
         </div>
         <div class="param-hint">Step-size &eta; for Q-learning updates</div>
@@ -142,7 +142,7 @@
           </div>
           <div class="eps-decay-row">
             <label class="eps-decay-label" for="eps-decay">decay</label>
-            <input type="number" id="eps-decay" class="param-input eps-input" value="0.9995" min="0" max="1" step="0.0001" />
+            <input type="number" id="eps-decay" class="param-input eps-input" value="0.99995" min="0" max="1" step="0.00001" />
           </div>
           <div class="eps-decay-row">
             <label class="eps-decay-label" for="eps-min">&epsilon;<sub>min</sub></label>
@@ -159,11 +159,11 @@
       <div class="actions-group" id="actions-td">
         <div class="td-run-row">
           <label class="param-label" for="td-num-episodes"><code>episodes</code></label>
-          <input type="number" id="td-num-episodes" class="param-input" value="10000" min="100" step="1000" style="width:96px" />
+          <input type="number" id="td-num-episodes" class="param-input" value="50000" min="100" step="1000" style="width:96px" />
         </div>
         <div class="td-run-row">
           <label class="param-label" for="td-max-steps"><code>max_steps</code></label>
-          <input type="number" id="td-max-steps" class="param-input" value="100" min="10" step="10" style="width:96px" />
+          <input type="number" id="td-max-steps" class="param-input" value="200" min="10" step="10" style="width:96px" />
         </div>
         <button class="btn btn-primary" id="btn-run-td" aria-label="Run training">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l14 9-14 9V3z"/></svg>
