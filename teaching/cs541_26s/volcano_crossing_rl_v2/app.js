@@ -37,45 +37,49 @@
 
   var ALL_TABS = ['tabular', 'feature'];
 
-  // Feature vector: pairwise decoupled features (Stanford style)
-  // 1[a=k]        — action indicators           (4)
-  // 1[r=i]        — row indicators              (5)
-  // 1[c=j]        — column indicators           (7)
-  // 1[a=k, r=i]   — action × row               (4×5 = 20)
-  // 1[a=k, c=j]   — action × column            (4×7 = 28)
-  // 1[r=i, c=j]   — row × column               (5×7 = 35)
-  // Total: 4 + 5 + 7 + 20 + 28 + 35 = 99 features
-  // Q̂(s,a) = w_a + w_r + w_c + w_{a,r} + w_{a,c} + w_{r,c}
-  // Each (s,a) activates exactly 6 features (one from each group).
-  // Individual features capture global biases; pairwise features capture
-  // two-way interactions. No triple (a,r,c) features — this is the
-  // compression vs tabular's 140 entries.
-  var NUM_FEATURES = 4 + ROWS + COLS + 4 * ROWS + 4 * COLS + ROWS * COLS; // 99
+  // Feature vector: full hierarchical decoupled features
+  // Individual:  1[a=k] (4)  +  1[r=i] (5)  +  1[c=j] (7)         = 16
+  // Pairwise:    1[a=k,r=i] (20) + 1[a=k,c=j] (28) + 1[r=i,c=j] (35) = 83
+  // Three-way:   1[a=k,r=i,c=j] (4×5×7)                            = 140
+  // Total: 16 + 83 + 140 = 239 features
+  // Q̂(s,a) = w_a + w_r + w_c + w_{a,r} + w_{a,c} + w_{r,c} + w_{a,r,c}
+  // Each (s,a) activates exactly 7 features (one from each group).
+  // Lower-order features provide generalization (shared across states/actions);
+  // the three-way feature provides cell-specific action precision.
+  var NUM_FEATURES = 4 + ROWS + COLS + 4 * ROWS + 4 * COLS + ROWS * COLS + 4 * ROWS * COLS; // 239
   var FEATURE_LABELS = (function () {
     var labels = [];
     var dirLabels = ['N', 'S', 'W', 'E'];
-    // Individual: action
+    // Individual: action (4)
     for (var a = 0; a < 4; a++) labels.push('1[a=' + dirLabels[a] + ']');
-    // Individual: row
+    // Individual: row (5)
     for (var r = 0; r < ROWS; r++) labels.push('1[r=' + (r + 1) + ']');
-    // Individual: col
+    // Individual: col (7)
     for (var c = 0; c < COLS; c++) labels.push('1[c=' + (c + 1) + ']');
-    // Pairwise: action × row
+    // Pairwise: action × row (20)
     for (var a2 = 0; a2 < 4; a2++) {
       for (var r2 = 0; r2 < ROWS; r2++) {
         labels.push('1[a=' + dirLabels[a2] + ',r=' + (r2 + 1) + ']');
       }
     }
-    // Pairwise: action × col
+    // Pairwise: action × col (28)
     for (var a3 = 0; a3 < 4; a3++) {
       for (var c2 = 0; c2 < COLS; c2++) {
         labels.push('1[a=' + dirLabels[a3] + ',c=' + (c2 + 1) + ']');
       }
     }
-    // Pairwise: row × col
+    // Pairwise: row × col (35)
     for (var r3 = 0; r3 < ROWS; r3++) {
       for (var c3 = 0; c3 < COLS; c3++) {
         labels.push('1[r=' + (r3 + 1) + ',c=' + (c3 + 1) + ']');
+      }
+    }
+    // Three-way: action × row × col (140)
+    for (var a4 = 0; a4 < 4; a4++) {
+      for (var r4 = 0; r4 < ROWS; r4++) {
+        for (var c4 = 0; c4 < COLS; c4++) {
+          labels.push('1[a=' + dirLabels[a4] + ',r=' + (r4 + 1) + ',c=' + (c4 + 1) + ']');
+        }
       }
     }
     return labels;
@@ -133,9 +137,9 @@
     },
     'feature': {
       title: 'Feature-Based Q-Learning (Linear Approximation)',
-      description: 'Q\u0302(s,a) = w \u00b7 \u03C6(s,a) using pairwise decoupled features: individual indicators 1[a], 1[r], 1[c] (16) plus all pairwise interactions 1[a,r] (20), 1[a,c] (28), 1[r,c] (35) = 99 features. Each (s,a) activates exactly 6 features. The additive structure Q\u0302 = w_a + w_r + w_c + w_{a,r} + w_{a,c} + w_{r,c} enables generalization but limits representational power.',
+      description: 'Q\u0302(s,a) = w \u00b7 \u03C6(s,a) using hierarchical indicator features: individual 1[a], 1[r], 1[c] (16) + pairwise 1[a,r], 1[a,c], 1[r,c] (83) + three-way 1[a,r,c] (140) = 239 features total. Each (s,a) activates exactly 7 features (one per group). Lower-order features generalize across states/actions; the three-way feature provides cell-specific precision.',
       formula: 'w \u2190 w + \u03B7 \u00b7 (r + \u03B3 max_a\' Q\u0302(s\',a\') \u2212 Q\u0302(s,a)) \u00b7 \u03C6(s,a)',
-      diff: '99 weights vs 140 Q-entries (29% compression). Pairwise features decouple action, row, and column \u2014 each pair shares information across the third variable. The tradeoff: generalization comes at the cost of not capturing three-way (action, row, col) interactions.'
+      diff: '239 weights (more than tabular\u2019s 140), but structured: each Q-value is a sum of 7 weights from different granularity levels. The lower-order weights act as regularization, sharing information across similar states and actions.'
     }
   };
 
@@ -177,16 +181,17 @@
   }
 
   // ============ FEATURE VECTOR ============
-  // Layout: [0..3] a | [4..8] r | [9..15] c | [16..35] a×r | [36..63] a×c | [64..98] r×c
+  // Layout: [0..3] a | [4..8] r | [9..15] c | [16..35] a×r | [36..63] a×c | [64..98] r×c | [99..238] a×r×c
   function featureVector(r, c, dirIndex) {
     var phi = new Array(NUM_FEATURES);
     for (var i = 0; i < NUM_FEATURES; i++) phi[i] = 0;
-    phi[dirIndex] = 1;                         // 1[a]
-    phi[4 + r] = 1;                            // 1[r]
-    phi[9 + c] = 1;                            // 1[c]
-    phi[16 + dirIndex * ROWS + r] = 1;         // 1[a,r]
-    phi[36 + dirIndex * COLS + c] = 1;         // 1[a,c]
-    phi[64 + r * COLS + c] = 1;                // 1[r,c]
+    phi[dirIndex] = 1;                                          // 1[a]
+    phi[4 + r] = 1;                                             // 1[r]
+    phi[9 + c] = 1;                                             // 1[c]
+    phi[16 + dirIndex * ROWS + r] = 1;                          // 1[a,r]
+    phi[36 + dirIndex * COLS + c] = 1;                          // 1[a,c]
+    phi[64 + r * COLS + c] = 1;                                 // 1[r,c]
+    phi[99 + dirIndex * ROWS * COLS + r * COLS + c] = 1;        // 1[a,r,c]
     return phi;
   }
 
@@ -729,7 +734,7 @@
   // ============ PER-TAB DEFAULTS ============
   var TAB_DEFAULTS = {
     'tabular': { learningRate: '0.1', epsDecay: '0.99999', passReward: '40', episodes: '50000' },
-    'feature': { learningRate: '0.1', epsDecay: '0.99999', passReward: '80', episodes: '50000' }
+    'feature': { learningRate: '0.03', epsDecay: '0.99999', passReward: '80', episodes: '50000' }
   };
 
   function applyTabDefaults(tabId) {
