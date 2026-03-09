@@ -712,8 +712,8 @@
 
   // ============ PER-TAB DEFAULTS ============
   var TAB_DEFAULTS = {
-    'tabular': { learningRate: '0.1', epsDecay: '0.99999', episodes: '50000' },
-    'feature': { learningRate: '0.01', epsDecay: '0.9999', episodes: '50000' }
+    'tabular': { learningRate: '0.1', epsDecay: '0.99999', passReward: '40', episodes: '50000' },
+    'feature': { learningRate: '0.01', epsDecay: '0.9999', passReward: '80', episodes: '50000' }
   };
 
   function applyTabDefaults(tabId) {
@@ -721,6 +721,7 @@
     if (!d) return;
     document.getElementById('learningRate').value = d.learningRate;
     document.getElementById('eps-decay').value = d.epsDecay;
+    document.getElementById('passReward').value = d.passReward;
     document.getElementById('td-num-episodes').value = d.episodes;
   }
 
