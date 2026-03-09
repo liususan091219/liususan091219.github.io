@@ -734,7 +734,7 @@
   // ============ PER-TAB DEFAULTS ============
   var TAB_DEFAULTS = {
     'tabular': { learningRate: '0.1', epsDecay: '0.99999', passReward: '40', episodes: '50000' },
-    'feature': { learningRate: '0.03', epsDecay: '0.99999', passReward: '80', episodes: '50000' }
+    'feature': { learningRate: '0.01', epsDecay: '0.99999', passReward: '40', episodes: '50000' }
   };
 
   function applyTabDefaults(tabId) {
