@@ -216,11 +216,11 @@
   }
 
   // ============ RUN SINGLE EPISODE (TABULAR Q-LEARNING) ============
-  function runTabularEpisode(params, epsilon, maxSteps) {
+  function runTabularEpisode(params, epsilon, maxSteps, recordSteps) {
     var state = tabState['tabular'];
     var r = START_R, c = START_C;
-    var steps = [], totalReward = 0;
-    var visited = [{ r: r, c: c }];
+    var steps = recordSteps ? [] : null;
+    var totalReward = 0;
     state.discovered[r + ',' + c] = true;
 
     for (var step = 0; step < maxSteps; step++) {
@@ -239,27 +239,28 @@
       var lr = params.learningRate;
       state.qValues[key][actionIndex] = (1 - lr) * state.qValues[key][actionIndex] + lr * target;
 
-      steps.push({
-        action: DIR_LETTERS[DIR_NAMES[actionIndex]],
-        reward: result.reward,
-        nextState: '(' + (result.nr + 1) + ',' + (result.nc + 1) + ')',
-        wasSlip: result.wasSlip
-      });
+      if (steps) {
+        steps.push({
+          action: DIR_LETTERS[DIR_NAMES[actionIndex]],
+          reward: result.reward,
+          nextState: '(' + (result.nr + 1) + ',' + (result.nc + 1) + ')',
+          wasSlip: result.wasSlip
+        });
+      }
       totalReward += result.reward;
       r = result.nr; c = result.nc;
-      visited.push({ r: r, c: c });
       state.discovered[r + ',' + c] = true;
       if (result.done) break;
     }
-    return { steps: steps, totalReward: totalReward, visited: visited };
+    return { steps: steps, totalReward: totalReward };
   }
 
   // ============ RUN SINGLE EPISODE (FEATURE-BASED Q-LEARNING) ============
-  function runFeatureEpisode(params, epsilon, maxSteps) {
+  function runFeatureEpisode(params, epsilon, maxSteps, recordSteps) {
     var state = tabState['feature'];
     var r = START_R, c = START_C;
-    var steps = [], totalReward = 0;
-    var visited = [{ r: r, c: c }];
+    var steps = recordSteps ? [] : null;
+    var totalReward = 0;
     var w = state.weights;
     state.discovered[r + ',' + c] = true;
 
@@ -281,24 +282,28 @@
 
       var target = result.reward + params.discount * maxNextQ;
       var td_error = target - qCurrent;
+      // Clamp TD error to prevent weight divergence
+      if (td_error > 50) td_error = 50;
+      else if (td_error < -50) td_error = -50;
       var lr = params.learningRate;
       for (var i = 0; i < NUM_FEATURES; i++) {
         w[i] += lr * td_error * phi[i];
       }
 
-      steps.push({
-        action: DIR_LETTERS[DIR_NAMES[actionIndex]],
-        reward: result.reward,
-        nextState: '(' + (result.nr + 1) + ',' + (result.nc + 1) + ')',
-        wasSlip: result.wasSlip
-      });
+      if (steps) {
+        steps.push({
+          action: DIR_LETTERS[DIR_NAMES[actionIndex]],
+          reward: result.reward,
+          nextState: '(' + (result.nr + 1) + ',' + (result.nc + 1) + ')',
+          wasSlip: result.wasSlip
+        });
+      }
       totalReward += result.reward;
       r = result.nr; c = result.nc;
-      visited.push({ r: r, c: c });
       state.discovered[r + ',' + c] = true;
       if (result.done) break;
     }
-    return { steps: steps, totalReward: totalReward, visited: visited };
+    return { steps: steps, totalReward: totalReward };
   }
 
   // ============ BUILD GRID ============
@@ -639,6 +644,9 @@
     var recentPaths = [];
     var ep = 0;
     var BUDGET_MS = 40; // yield to browser every ~40ms for smooth UI
+    // Only record full step details for the last TAIL episodes to reduce GC
+    var TAIL = 10;
+    var tailStart = Math.max(0, numEpisodes - TAIL);
 
     setTrainingUI(true);
 
@@ -646,16 +654,18 @@
       var t0 = performance.now();
       while (ep < numEpisodes && performance.now() - t0 < BUDGET_MS) {
         var epsilon = getTDEpsilon(ep);
+        var recordSteps = ep >= tailStart;
         var result = (tab === 'tabular')
-          ? runTabularEpisode(params, epsilon, maxSteps)
-          : runFeatureEpisode(params, epsilon, maxSteps);
+          ? runTabularEpisode(params, epsilon, maxSteps, recordSteps)
+          : runFeatureEpisode(params, epsilon, maxSteps, recordSteps);
 
         state.totalUtility += result.totalReward;
         state.episodeCount = ep + 1;
         ep++;
 
-        recentPaths.push({ steps: result.steps, totalReward: result.totalReward });
-        if (recentPaths.length > 10) { recentPaths.shift(); }
+        if (recordSteps) {
+          recentPaths.push({ steps: result.steps, totalReward: result.totalReward });
+        }
       }
 
       updateProgress(ep, numEpisodes);
