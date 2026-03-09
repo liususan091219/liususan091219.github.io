@@ -20,7 +20,7 @@
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CS541 Feature-Based Q-Learning</title>
+  <title>CS541 Q-Learning with Function Approximation</title>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -35,7 +35,7 @@
   <header class="app-header">
     <div style="display:flex;align-items:baseline;flex-wrap:wrap;gap:var(--space-2);">
       <h1>CS541</h1>
-      <span class="subtitle">Feature-Based Q-Learning</span>
+      <span class="subtitle">Q-Learning with Function Approximation</span>
     </div>
     <button class="theme-toggle" data-theme-toggle aria-label="Switch to dark mode">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -51,14 +51,14 @@
       It does not know where rewards or penalties are &mdash; it can only observe
       <strong>(action, reward, next&nbsp;state)</strong> after each step.
       Switch tabs to compare <strong>Tabular Q-Learning</strong> (140 entries)
-      vs <strong>Feature-Based Q-Learning</strong> (205 weights via function approximation).
+      vs <strong>Q-Learning with Function Approximation</strong> (205 weights).
     </p>
   </div>
 
   <!-- TAB BAR -->
   <nav class="tab-bar" id="tab-bar">
     <button class="tab-btn active" data-tab="tabular">Tabular Q-Learning</button>
-    <button class="tab-btn" data-tab="feature">Feature-Based Q-Learning</button>
+    <button class="tab-btn" data-tab="feature">Q-Learning with Function Approximation</button>
   </nav>
 
   <!-- MAIN LAYOUT -->
@@ -213,7 +213,7 @@
         </div>
       </div>
 
-      <!-- Weight vector for feature-based tab -->
+      <!-- Weight vector for function approximation tab -->
       <div class="w-table-container" id="w-table-container" style="display:none">
         <h3>Weight Vector w (205 weights)</h3>
         <div class="q-table-scroll">

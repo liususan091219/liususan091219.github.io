@@ -1,4 +1,4 @@
-/* app.js — Tabular Q-Learning vs Feature-Based Q-Learning on 5x7 Volcano Grid */
+/* app.js — Tabular Q-Learning vs Q-Learning with Function Approximation on 5x7 Volcano Grid */
 (function () {
   'use strict';
 
@@ -133,7 +133,7 @@
       diff: '140 independent parameters. Converges to Q* given sufficient exploration, but must visit every (s,a) pair many times.'
     },
     'feature': {
-      title: 'Feature-Based Q-Learning (Linear Approximation)',
+      title: 'Q-Learning with Function Approximation',
       description: 'Q\u0302(s,a) = w \u00b7 \u03C6(s,a) using a bias plus hierarchical action-centric indicator features: bias (1) + individual 1[a], 1[r], 1[c] (16) + pairwise 1[a,r], 1[a,c] (48) + three-way 1[a,r,c] (140) = 205 features total. Each (s,a) activates exactly 7 features (one per group). All pairwise and three-way features include the action, helping differentiate actions at every granularity.',
       formula: 'w \u2190 w + \u03B7 \u00b7 (r + \u03B3 max_a\' Q\u0302(s\',a\') \u2212 Q\u0302(s,a)) \u00b7 \u03C6(s,a)',
       diff: '205 weights (more than tabular\u2019s 140), but structured: each Q-value is a sum of 7 weights from different granularity levels. The bias provides a global baseline; lower-order weights share information across similar states and actions.'
