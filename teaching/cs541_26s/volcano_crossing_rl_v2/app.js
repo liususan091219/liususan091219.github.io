@@ -37,13 +37,14 @@
 
   var ALL_TABS = ['tabular', 'feature'];
 
-  // Feature vector: action×row (20) + col (7) = 27 features
-  // Action×row indicators (4×5 = 20): allows different action preferences per row
-  // Col indicators (7): captures column-level value (shared across actions)
-  // Total: 27 weights vs 140 tabular entries (81% compression)
-  // The model can learn row-specific policies (e.g. "go South in row 4")
-  // but cannot learn column-specific action preferences (e.g. "go East only at col 5")
-  var NUM_FEATURES = 4 * ROWS + COLS; // 20 + 7 = 27
+  // Feature vector: action×row (20) + action×col (28) = 48 features
+  // Action×row (4×5 = 20): row-specific action preferences
+  // Action×col (4×7 = 28): column-specific action preferences
+  // Total: 48 weights vs 140 tabular entries (66% compression)
+  // Q̂(s,a) = w_{a,row} + w_{a,col} — action preferences depend on both
+  // row and column, but additively. Cannot represent interactions like
+  // "go East is good at (row 5, col 5) but bad at (row 1, col 5)".
+  var NUM_FEATURES = 4 * ROWS + 4 * COLS; // 20 + 28 = 48
   var FEATURE_LABELS = (function () {
     var labels = [];
     var dirLabels = ['N', 'S', 'W', 'E'];
@@ -52,8 +53,10 @@
         labels.push('1[a=' + dirLabels[a] + ',r=' + (r + 1) + ']');
       }
     }
-    for (var c = 0; c < COLS; c++) {
-      labels.push('1[col=' + (c + 1) + ']');
+    for (var a2 = 0; a2 < 4; a2++) {
+      for (var c = 0; c < COLS; c++) {
+        labels.push('1[a=' + dirLabels[a2] + ',c=' + (c + 1) + ']');
+      }
     }
     return labels;
   })();
@@ -110,9 +113,9 @@
     },
     'feature': {
       title: 'Feature-Based Q-Learning (Linear Approximation)',
-      description: 'Q\u0302(s,a) = w \u00b7 \u03C6(s,a) where \u03C6 is a 27-dim binary feature vector: action\u00d7row indicators (4\u00d75 = 20) + column indicators (7). The action\u00d7row features let the model learn different action preferences per row (e.g. \"go South in row 4\"), while column features capture position value. But the column value is shared across all actions \u2014 so the model cannot learn \"go East only at column 5\" to navigate the safe passage around the volcano wall.',
+      description: 'Q\u0302(s,a) = w \u00b7 \u03C6(s,a) where \u03C6 is a 48-dim binary feature vector: action\u00d7row (4\u00d75 = 20) + action\u00d7col (4\u00d77 = 28). Each feature captures how good an action is in a given row or column. Q\u0302(s,a) = w_{a,row} + w_{a,col} \u2014 both row and column influence action choice. But the combination is additive: the model cannot represent \"go East at (row 5, col 5) but not at (row 2, col 5)\".',
       formula: 'w \u2190 w + \u03B7 \u00b7 (r + \u03B3 max_a\' Q\u0302(s\',a\') \u2212 Q\u0302(s,a)) \u00b7 \u03C6(s,a)',
-      diff: '27 weights vs 140 Q-entries (81% compression). Can learn row-specific policies, but the column features lack action interaction \u2014 so the volcano wall in column 6 penalizes all actions equally, preventing the agent from navigating to the goal.'
+      diff: '48 weights vs 140 Q-entries (66% compression). Row- and column-specific action preferences, but additive \u2014 cannot represent row\u00d7col interactions needed to navigate the safe passage at (5,6).'
     }
   };
 
@@ -162,8 +165,12 @@
         phi.push((dirIndex === a && r === row) ? 1 : 0);
       }
     }
-    // 7 col indicators
-    for (var col = 0; col < COLS; col++) { phi.push(c === col ? 1 : 0); }
+    // 28 action×col indicators
+    for (var a2 = 0; a2 < 4; a2++) {
+      for (var col = 0; col < COLS; col++) {
+        phi.push((dirIndex === a2 && c === col) ? 1 : 0);
+      }
+    }
     return phi;
   }
 
