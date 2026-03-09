@@ -717,53 +717,97 @@
   }
 
   // ============ TRAIN ============
+  var isTraining = false;
+
+  function setTrainingUI(running) {
+    var btn = document.getElementById('btn-run-td');
+    var progressEl = document.getElementById('training-progress');
+    if (running) {
+      btn.disabled = true;
+      btn.textContent = 'Training\u2026';
+      if (progressEl) progressEl.style.display = 'block';
+    } else {
+      btn.disabled = false;
+      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l14 9-14 9V3z"/></svg> Train';
+      if (progressEl) progressEl.style.display = 'none';
+    }
+  }
+
+  function updateProgress(current, total) {
+    var progressEl = document.getElementById('training-progress');
+    if (!progressEl) return;
+    var pct = Math.round(100 * current / total);
+    progressEl.textContent = 'Episode ' + current.toLocaleString() + ' / ' + total.toLocaleString() + ' (' + pct + '%)';
+  }
+
   function runTraining() {
+    if (isTraining) return;
+    isTraining = true;
+
     // Reset first
     tabState[activeTab] = freshTabState();
-
-    var numEpisodes = parseInt(document.getElementById('td-num-episodes').value, 10) || 10000;
-    var maxSteps = parseInt(document.getElementById('td-max-steps').value, 10) || 100;
-    var params = getParams();
-    var state = tabState[activeTab];
-
-    // Keep only last 10 episodes in paths for display
-    var recentPaths = [];
-
-    for (var ep = 0; ep < numEpisodes; ep++) {
-      var epsilon = getTDEpsilon(ep);
-      var result;
-
-      if (activeTab === 'tabular') {
-        result = runTabularEpisode(params, epsilon, maxSteps);
-      } else {
-        result = runFeatureEpisode(params, epsilon, maxSteps);
-      }
-
-      state.totalUtility += result.totalReward;
-      state.episodeCount = ep + 1;
-
-      recentPaths.push({
-        steps: result.steps,
-        totalReward: result.totalReward
-      });
-      if (recentPaths.length > 10) {
-        recentPaths.shift();
-      }
-    }
-
-    state.paths = recentPaths;
-
-    // Update all UI
     buildGrid();
-    if (activeTab === 'tabular') {
-      buildQTable();
-    } else {
-      buildWeightTable();
-      buildFeatureQTable();
-    }
     updateStats();
     renderPathLog();
-    updateTDEpsilonDisplay();
+
+    var numEpisodes = parseInt(document.getElementById('td-num-episodes').value, 10) || 50000;
+    var maxSteps = parseInt(document.getElementById('td-max-steps').value, 10) || 200;
+    var params = getParams();
+    var state = tabState[activeTab];
+    var tab = activeTab;
+    var recentPaths = [];
+    var CHUNK = 1000; // episodes per chunk
+    var ep = 0;
+
+    setTrainingUI(true);
+
+    function runChunk() {
+      var end = Math.min(ep + CHUNK, numEpisodes);
+      for (; ep < end; ep++) {
+        var epsilon = getTDEpsilon(ep);
+        var result;
+
+        if (tab === 'tabular') {
+          result = runTabularEpisode(params, epsilon, maxSteps);
+        } else {
+          result = runFeatureEpisode(params, epsilon, maxSteps);
+        }
+
+        state.totalUtility += result.totalReward;
+        state.episodeCount = ep + 1;
+
+        recentPaths.push({
+          steps: result.steps,
+          totalReward: result.totalReward
+        });
+        if (recentPaths.length > 10) {
+          recentPaths.shift();
+        }
+      }
+
+      updateProgress(ep, numEpisodes);
+
+      if (ep < numEpisodes && activeTab === tab) {
+        setTimeout(runChunk, 0);
+      } else {
+        // Done
+        state.paths = recentPaths;
+        buildGrid();
+        if (tab === 'tabular') {
+          buildQTable();
+        } else {
+          buildWeightTable();
+          buildFeatureQTable();
+        }
+        updateStats();
+        renderPathLog();
+        updateTDEpsilonDisplay();
+        isTraining = false;
+        setTrainingUI(false);
+      }
+    }
+
+    runChunk();
   }
 
   // ============ TAB SWITCHING ============
