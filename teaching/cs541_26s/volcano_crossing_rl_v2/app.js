@@ -37,30 +37,45 @@
 
   var ALL_TABS = ['tabular', 'feature'];
 
-  // Feature vector: action × row × col_group = 4 × 5 × 4 = 80 features
-  // Column groups: {1-3}=0  {4-5}=1  {6}=2  {7}=3
-  //   Cols 1-3: open left region (grouped — similar navigation)
-  //   Cols 4-5: mid region approaching volcano wall
-  //   Col 6: volcano column (needs its own weights)
-  //   Col 7: goal column (needs its own weights)
-  // Each feature: 1[a=k, row=i, cg=j]
-  // Q̂(s,a) = w_{a,row,cg} — one active weight per (s,a) pair
-  // Captures action×location interactions with column generalization.
-  // 80 weights vs 140 tabular entries (43% compression)
-  var NUM_COL_GROUPS = 4;
-  function colGroup(c) {
-    return c <= 2 ? 0 : (c <= 4 ? 1 : (c === 5 ? 2 : 3));
-  }
-  var COL_GROUP_LABELS = ['c\u22643', 'c\u22645', 'c=6', 'c=7'];
-  var NUM_FEATURES = 4 * ROWS * NUM_COL_GROUPS; // 4×5×4 = 80
+  // Feature vector: pairwise decoupled features (Stanford style)
+  // 1[a=k]        — action indicators           (4)
+  // 1[r=i]        — row indicators              (5)
+  // 1[c=j]        — column indicators           (7)
+  // 1[a=k, r=i]   — action × row               (4×5 = 20)
+  // 1[a=k, c=j]   — action × column            (4×7 = 28)
+  // 1[r=i, c=j]   — row × column               (5×7 = 35)
+  // Total: 4 + 5 + 7 + 20 + 28 + 35 = 99 features
+  // Q̂(s,a) = w_a + w_r + w_c + w_{a,r} + w_{a,c} + w_{r,c}
+  // Each (s,a) activates exactly 6 features (one from each group).
+  // Individual features capture global biases; pairwise features capture
+  // two-way interactions. No triple (a,r,c) features — this is the
+  // compression vs tabular's 140 entries.
+  var NUM_FEATURES = 4 + ROWS + COLS + 4 * ROWS + 4 * COLS + ROWS * COLS; // 99
   var FEATURE_LABELS = (function () {
     var labels = [];
     var dirLabels = ['N', 'S', 'W', 'E'];
-    for (var a = 0; a < 4; a++) {
-      for (var r = 0; r < ROWS; r++) {
-        for (var cg = 0; cg < NUM_COL_GROUPS; cg++) {
-          labels.push('1[a=' + dirLabels[a] + ',r=' + (r + 1) + ',' + COL_GROUP_LABELS[cg] + ']');
-        }
+    // Individual: action
+    for (var a = 0; a < 4; a++) labels.push('1[a=' + dirLabels[a] + ']');
+    // Individual: row
+    for (var r = 0; r < ROWS; r++) labels.push('1[r=' + (r + 1) + ']');
+    // Individual: col
+    for (var c = 0; c < COLS; c++) labels.push('1[c=' + (c + 1) + ']');
+    // Pairwise: action × row
+    for (var a2 = 0; a2 < 4; a2++) {
+      for (var r2 = 0; r2 < ROWS; r2++) {
+        labels.push('1[a=' + dirLabels[a2] + ',r=' + (r2 + 1) + ']');
+      }
+    }
+    // Pairwise: action × col
+    for (var a3 = 0; a3 < 4; a3++) {
+      for (var c2 = 0; c2 < COLS; c2++) {
+        labels.push('1[a=' + dirLabels[a3] + ',c=' + (c2 + 1) + ']');
+      }
+    }
+    // Pairwise: row × col
+    for (var r3 = 0; r3 < ROWS; r3++) {
+      for (var c3 = 0; c3 < COLS; c3++) {
+        labels.push('1[r=' + (r3 + 1) + ',c=' + (c3 + 1) + ']');
       }
     }
     return labels;
@@ -118,9 +133,9 @@
     },
     'feature': {
       title: 'Feature-Based Q-Learning (Linear Approximation)',
-      description: 'Q\u0302(s,a) = w \u00b7 \u03C6(s,a) where \u03C6 maps each (state, action) to a one-hot indicator over action \u00d7 row \u00d7 column-group. Columns are grouped into 4 regions: cols 1\u20133 (open), cols 4\u20135 (mid), col 6 (volcano), col 7 (goal). This gives 4 actions \u00d7 5 rows \u00d7 4 col-groups = 80 features. Cells in the same row and column-group share a weight for each action, enabling spatial generalization.',
+      description: 'Q\u0302(s,a) = w \u00b7 \u03C6(s,a) using pairwise decoupled features: individual indicators 1[a], 1[r], 1[c] (16) plus all pairwise interactions 1[a,r] (20), 1[a,c] (28), 1[r,c] (35) = 99 features. Each (s,a) activates exactly 6 features. The additive structure Q\u0302 = w_a + w_r + w_c + w_{a,r} + w_{a,c} + w_{r,c} enables generalization but limits representational power.',
       formula: 'w \u2190 w + \u03B7 \u00b7 (r + \u03B3 max_a\' Q\u0302(s\',a\') \u2212 Q\u0302(s,a)) \u00b7 \u03C6(s,a)',
-      diff: '80 weights vs 140 Q-entries (43% compression). Cells in the same column-group share weights, so learning about one cell generalizes to its neighbors. The grouping preserves the critical distinction between volcano, goal, and open columns.'
+      diff: '99 weights vs 140 Q-entries (29% compression). Pairwise features decouple action, row, and column \u2014 each pair shares information across the third variable. The tradeoff: generalization comes at the cost of not capturing three-way (action, row, col) interactions.'
     }
   };
 
@@ -162,12 +177,16 @@
   }
 
   // ============ FEATURE VECTOR ============
+  // Layout: [0..3] a | [4..8] r | [9..15] c | [16..35] a×r | [36..63] a×c | [64..98] r×c
   function featureVector(r, c, dirIndex) {
     var phi = new Array(NUM_FEATURES);
     for (var i = 0; i < NUM_FEATURES; i++) phi[i] = 0;
-    // Single active feature: action × row × col_group
-    var cg = colGroup(c);
-    phi[dirIndex * ROWS * NUM_COL_GROUPS + r * NUM_COL_GROUPS + cg] = 1;
+    phi[dirIndex] = 1;                         // 1[a]
+    phi[4 + r] = 1;                            // 1[r]
+    phi[9 + c] = 1;                            // 1[c]
+    phi[16 + dirIndex * ROWS + r] = 1;         // 1[a,r]
+    phi[36 + dirIndex * COLS + c] = 1;         // 1[a,c]
+    phi[64 + r * COLS + c] = 1;                // 1[r,c]
     return phi;
   }
 
