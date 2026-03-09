@@ -282,9 +282,6 @@
 
       var target = result.reward + params.discount * maxNextQ;
       var td_error = target - qCurrent;
-      // Clamp TD error to prevent weight divergence
-      if (td_error > 50) td_error = 50;
-      else if (td_error < -50) td_error = -50;
       var lr = params.learningRate;
       for (var i = 0; i < NUM_FEATURES; i++) {
         w[i] += lr * td_error * phi[i];
