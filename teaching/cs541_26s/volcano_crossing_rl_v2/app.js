@@ -637,14 +637,14 @@
     var state = tabState[activeTab];
     var tab = activeTab;
     var recentPaths = [];
-    var CHUNK = 1000;
     var ep = 0;
+    var BUDGET_MS = 40; // yield to browser every ~40ms for smooth UI
 
     setTrainingUI(true);
 
     function runChunk() {
-      var end = Math.min(ep + CHUNK, numEpisodes);
-      for (; ep < end; ep++) {
+      var t0 = performance.now();
+      while (ep < numEpisodes && performance.now() - t0 < BUDGET_MS) {
         var epsilon = getTDEpsilon(ep);
         var result = (tab === 'tabular')
           ? runTabularEpisode(params, epsilon, maxSteps)
@@ -652,6 +652,7 @@
 
         state.totalUtility += result.totalReward;
         state.episodeCount = ep + 1;
+        ep++;
 
         recentPaths.push({ steps: result.steps, totalReward: result.totalReward });
         if (recentPaths.length > 10) { recentPaths.shift(); }
@@ -660,7 +661,7 @@
       updateProgress(ep, numEpisodes);
 
       if (ep < numEpisodes && activeTab === tab) {
-        setTimeout(runChunk, 0);
+        requestAnimationFrame(runChunk);
       } else {
         state.paths = recentPaths;
         buildGrid();
@@ -674,7 +675,7 @@
       }
     }
 
-    runChunk();
+    requestAnimationFrame(runChunk);
   }
 
   // ============ TAB SWITCHING ============
