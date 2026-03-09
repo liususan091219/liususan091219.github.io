@@ -97,6 +97,7 @@
   var qTableBody = document.getElementById('q-table-body');
   var wTableContainer = document.getElementById('w-table-container');
   var wTableBody = document.getElementById('w-table-body');
+  var featureQTableBody = document.getElementById('feature-q-table-body');
 
   // ============ EDUCATIONAL CONTENT ============
   var EDU_CONTENT = {
@@ -540,6 +541,62 @@
     }
   }
 
+  // ============ BUILD FEATURE Q-TABLE ============
+  function buildFeatureQTable() {
+    featureQTableBody.innerHTML = '';
+    var state = tabState['feature'];
+    var w = state.weights;
+
+    for (var r = 0; r < ROWS; r++) {
+      for (var c = 0; c < COLS; c++) {
+        var row = document.createElement('tr');
+
+        var stateCell = document.createElement('td');
+        stateCell.className = 'q-state-cell';
+        stateCell.textContent = '(' + (r + 1) + ',' + (c + 1) + ')';
+        if (isTerminal(r, c)) stateCell.classList.add('q-terminal');
+        row.appendChild(stateCell);
+
+        var bestA = -1;
+        var bestVal = -Infinity;
+        var anyNonZero = false;
+
+        // Compute Q-hat for all actions
+        var qVals = [];
+        for (var a = 0; a < 4; a++) {
+          var qVal = featureQ(w, r, c, a);
+          qVals.push(qVal);
+          if (Math.abs(qVal) > 0.001) anyNonZero = true;
+          if (qVal > bestVal) { bestVal = qVal; bestA = a; }
+        }
+        if (!anyNonZero) bestA = -1;
+
+        for (var a2 = 0; a2 < 4; a2++) {
+          var td = document.createElement('td');
+          td.className = 'q-value-cell';
+          var val = qVals[a2];
+
+          if (isTerminal(r, c)) {
+            td.textContent = '\u00b7';
+            td.classList.add('q-terminal');
+          } else if (!anyNonZero) {
+            td.textContent = '0.00';
+            td.classList.add('q-empty');
+          } else {
+            td.textContent = val.toFixed(2);
+            if (val > 0.01) td.classList.add('q-positive');
+            else if (val < -0.01) td.classList.add('q-negative');
+            if (a2 === bestA) td.classList.add('q-best');
+          }
+
+          row.appendChild(td);
+        }
+
+        featureQTableBody.appendChild(row);
+      }
+    }
+  }
+
   // ============ UPDATE STATS ============
   function updateStats() {
     var state = tabState[activeTab];
@@ -652,6 +709,7 @@
       buildQTable();
     } else {
       buildWeightTable();
+      buildFeatureQTable();
     }
     updateStats();
     renderPathLog();
@@ -701,6 +759,7 @@
       buildQTable();
     } else {
       buildWeightTable();
+      buildFeatureQTable();
     }
     updateStats();
     renderPathLog();
@@ -730,6 +789,7 @@
       qTableContainer.style.display = 'none';
       wTableContainer.style.display = '';
       buildWeightTable();
+      buildFeatureQTable();
     }
 
     buildGrid();
