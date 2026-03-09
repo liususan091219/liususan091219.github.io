@@ -37,13 +37,26 @@
 
   var ALL_TABS = ['tabular', 'feature'];
 
-  // Feature vector: 4 action + 5 row + 7 col = 16 features (matches Stanford slide)
-  var NUM_FEATURES = 16;
-  var FEATURE_LABELS = [
-    '1[a=N]', '1[a=S]', '1[a=W]', '1[a=E]',
-    '1[row=1]', '1[row=2]', '1[row=3]', '1[row=4]', '1[row=5]',
-    '1[col=1]', '1[col=2]', '1[col=3]', '1[col=4]', '1[col=5]', '1[col=6]', '1[col=7]'
-  ];
+  // Feature vector: action×row (20) + col (7) = 27 features
+  // Action×row indicators (4×5 = 20): allows different action preferences per row
+  // Col indicators (7): captures column-level value (shared across actions)
+  // Total: 27 weights vs 140 tabular entries (81% compression)
+  // The model can learn row-specific policies (e.g. "go South in row 4")
+  // but cannot learn column-specific action preferences (e.g. "go East only at col 5")
+  var NUM_FEATURES = 4 * ROWS + COLS; // 20 + 7 = 27
+  var FEATURE_LABELS = (function () {
+    var labels = [];
+    var dirLabels = ['N', 'S', 'W', 'E'];
+    for (var a = 0; a < 4; a++) {
+      for (var r = 0; r < ROWS; r++) {
+        labels.push('1[a=' + dirLabels[a] + ',r=' + (r + 1) + ']');
+      }
+    }
+    for (var c = 0; c < COLS; c++) {
+      labels.push('1[col=' + (c + 1) + ']');
+    }
+    return labels;
+  })();
 
   // ============ SHARED STATE ============
   function freshTabState() {
@@ -97,9 +110,9 @@
     },
     'feature': {
       title: 'Feature-Based Q-Learning (Linear Approximation)',
-      description: 'Q\u0302(s,a) = w \u00b7 \u03C6(s,a) where \u03C6 is a 16-dim binary feature vector: action indicators (4) + row indicators (5) + column indicators (7). Only 16 weights instead of 140 entries. Generalization: updating one state affects all states sharing the same features. But the additive structure means the model cannot distinguish (5,6) as safe from (1\u20134,6) as volcanoes \u2014 they share the same column\u20116 feature.',
+      description: 'Q\u0302(s,a) = w \u00b7 \u03C6(s,a) where \u03C6 is a 27-dim binary feature vector: action\u00d7row indicators (4\u00d75 = 20) + column indicators (7). The action\u00d7row features let the model learn different action preferences per row (e.g. \"go South in row 4\"), while column features capture position value. But the column value is shared across all actions \u2014 so the model cannot learn \"go East only at column 5\" to navigate the safe passage around the volcano wall.',
       formula: 'w \u2190 w + \u03B7 \u00b7 (r + \u03B3 max_a\' Q\u0302(s\',a\') \u2212 Q\u0302(s,a)) \u00b7 \u03C6(s,a)',
-      diff: '16 weights vs 140 Q-entries (89% compression). Powerful generalization, but introduces approximation error \u2014 the true Q* may not be representable as a linear function of these features.'
+      diff: '27 weights vs 140 Q-entries (81% compression). Can learn row-specific policies, but the column features lack action interaction \u2014 so the volcano wall in column 6 penalizes all actions equally, preventing the agent from navigating to the goal.'
     }
   };
 
@@ -143,8 +156,13 @@
   // ============ FEATURE VECTOR ============
   function featureVector(r, c, dirIndex) {
     var phi = [];
-    for (var a = 0; a < 4; a++) { phi.push(dirIndex === a ? 1 : 0); }
-    for (var row = 0; row < ROWS; row++) { phi.push(r === row ? 1 : 0); }
+    // 20 action×row indicators
+    for (var a = 0; a < 4; a++) {
+      for (var row = 0; row < ROWS; row++) {
+        phi.push((dirIndex === a && r === row) ? 1 : 0);
+      }
+    }
+    // 7 col indicators
     for (var col = 0; col < COLS; col++) { phi.push(c === col ? 1 : 0); }
     return phi;
   }
