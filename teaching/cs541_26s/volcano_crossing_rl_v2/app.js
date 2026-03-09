@@ -19,27 +19,20 @@
     if (r === 0 && c === 6) return CELL_GOAL;
     // Volcanoes: (1,6),(2,6),(3,6),(4,6) => (0,5),(1,5),(2,5),(3,5)
     if (c === 5 && r >= 0 && r <= 3) return CELL_VOLCANO;
-    // Small reward / Start: (5,1) => (4,0)
+    // Small reward: (5,1) => (4,0)
     if (r === 4 && c === 0) return CELL_SMALL_REWARD;
+    // Start: (4,1) => (3,0)
+    if (r === 3 && c === 0) return CELL_START;
     return CELL_NORMAL;
   }
 
-  // Start position: (5,1) => (4,0)
-  var START_R = 4;
+  // Start position: (4,1) => (3,0)
+  var START_R = 3;
   var START_C = 0;
 
   function isTerminal(r, c) {
     var t = getCellType(r, c);
-    return t === CELL_GOAL || t === CELL_VOLCANO;
-  }
-
-  // Check if arriving at (r,c) ends the episode
-  // The small_reward at start ends the episode only if agent came from elsewhere
-  function isTerminalArrival(r, c, fromR, fromC) {
-    if (isTerminal(r, c)) return true;
-    // Arriving back at small_reward/start from a different cell
-    if (getCellType(r, c) === CELL_SMALL_REWARD && (r !== fromR || c !== fromC)) return true;
-    return false;
+    return t === CELL_GOAL || t === CELL_VOLCANO || t === CELL_SMALL_REWARD;
   }
 
   var DIRS = {
