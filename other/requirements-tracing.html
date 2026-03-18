@@ -145,8 +145,7 @@
 <!-- ============ TEST CASE KEY ============ -->
 <h2>Test Case Key</h2>
 
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-<div class="table-wrap">
+<div class="table-wrap" style="margin-bottom: 1rem;">
 <table class="key-table">
   <tr><th>ID</th><th>Unit Test</th><th>Covers</th></tr>
   <tr><td>U1</td><td>task-queue.test.ts</td><td>Persistence, due-ordering, state transitions</td></tr>
@@ -157,21 +156,63 @@
 </div>
 <div class="table-wrap">
 <table class="key-table">
-  <tr><th>ID</th><th>Use Case Test</th><th>Status</th></tr>
-  <tr><td>T1</td><td>Voice conversation</td><td><span class="badge badge-good">RUNNABLE</span></td></tr>
-  <tr><td>T2</td><td>Web search via voice</td><td><span class="badge badge-good">RUNNABLE</span></td></tr>
-  <tr><td>T3</td><td>Take and recall notes</td><td><span class="badge badge-good">RUNNABLE</span></td></tr>
-  <tr><td>T4</td><td>Set reminders</td><td><span class="badge badge-good">RUNNABLE</span></td></tr>
-  <tr><td>T5</td><td>Background task execution</td><td><span class="badge badge-good">RUNNABLE</span></td></tr>
-  <tr><td>T6</td><td>Scheduled autonomous tasks</td><td><span class="badge badge-good">RUNNABLE</span></td></tr>
-  <tr><td>T7</td><td>Email/calendar management</td><td><span class="badge badge-good">RUNNABLE</span></td></tr>
-  <tr><td>T8</td><td>Memory across sessions</td><td><span class="badge badge-good">RUNNABLE</span></td></tr>
-  <tr><td>T9</td><td>Computer/browser control</td><td><span class="badge badge-good">RUNNABLE</span></td></tr>
-  <tr><td>T10</td><td>Self-improvement (skills)</td><td><span class="badge badge-good">RUNNABLE</span></td></tr>
-  <tr><td>T11</td><td>Text conversation</td><td><span class="badge badge-good">RUNNABLE</span></td></tr>
-  <tr><td>T12</td><td>HTTP API access</td><td><span class="badge badge-good">RUNNABLE</span></td></tr>
-  <tr><td>T13</td><td>Cross-device sync</td><td><span class="badge badge-none">NOT STARTED</span></td></tr>
-  <tr><td>T14</td><td>Phone calls</td><td><span class="badge badge-good">RUNNABLE</span></td></tr>
+  <tr><th>ID</th><th>Use Case Test</th><th>Status</th><th>Test Method</th></tr>
+  <tr>
+    <td>T1</td><td>Voice conversation</td><td><span class="badge badge-good">RUNNABLE</span></td>
+    <td><code>pnpm dev</code> + <code>pnpm client</code> &rarr; open <code>http://localhost:8080</code> in Chrome, click mic and talk. Expect: agent responds with voice.</td>
+  </tr>
+  <tr>
+    <td>T2</td><td>Web search via voice</td><td><span class="badge badge-good">RUNNABLE</span></td>
+    <td>Same setup as T1. Say: <em>"What's the latest AI news?"</em> or <em>"What's the weather in Chicago?"</em> Expect: Google Search grounding + spoken summary.</td>
+  </tr>
+  <tr>
+    <td>T3</td><td>Take and recall notes</td><td><span class="badge badge-good">RUNNABLE</span></td>
+    <td>Any mode (<code>pnpm dev</code> / <code>pnpm chat</code> / <code>pnpm api</code>). Say/type: <em>"Take a note: buy groceries tomorrow"</em> then <em>"Read my notes"</em>. Expect: note saved to <code>data/notes/default_user.jsonl</code> and recalled.</td>
+  </tr>
+  <tr>
+    <td>T4</td><td>Set reminders</td><td><span class="badge badge-good">RUNNABLE</span></td>
+    <td>Say/type: <em>"Remind me in 1 minute to stretch"</em>. Voice/web: toast notification in web UI. Text: inline in terminal. Expect: notification fires after 1 minute.</td>
+  </tr>
+  <tr>
+    <td>T5</td><td>Background task execution</td><td><span class="badge badge-good">RUNNABLE</span></td>
+    <td>Say/type: <em>"Research the latest on quantum computing"</em>. Expect: agent says it's researching in background, results arrive as a notification.</td>
+  </tr>
+  <tr>
+    <td>T6</td><td>Scheduled autonomous tasks</td><td><span class="badge badge-good">RUNNABLE</span></td>
+    <td>Say/type: <em>"Check Hacker News every morning at 9am"</em>. Expect: recurring task in <code>data/tasks.db</code>, results as notifications. Verify: <em>"List my tasks"</em>.</td>
+  </tr>
+  <tr>
+    <td>T7</td><td>Email/calendar management</td><td><span class="badge badge-good">RUNNABLE</span></td>
+    <td>Setup: Google OAuth (<code>pnpm google:auth</code>) + <code>GMAIL_CLIENT_ID</code>/<code>SECRET</code> in <code>.env</code>. Say/type: <em>"Check my email"</em>, <em>"What's on my calendar today?"</em>, <em>"Send an email to alice@example.com"</em>. Expect: reads/sends emails, reads/creates calendar events.</td>
+  </tr>
+  <tr>
+    <td>T8</td><td>Memory across sessions</td><td><span class="badge badge-good">RUNNABLE</span></td>
+    <td><code>pnpm dev</code> or <code>pnpm chat</code>. Say <em>"My favorite color is blue"</em> + <em>"I work at Acme Corp"</em>. Quit (Ctrl+C), restart, ask <em>"What's my favorite color?"</em>. Expect: remembers facts. Stored in <code>data/memory/</code>.</td>
+  </tr>
+  <tr>
+    <td>T9</td><td>Computer/browser control</td><td><span class="badge badge-good">RUNNABLE</span></td>
+    <td>Say/type: <em>"How much disk space do I have?"</em> (&rarr; <code>df -h</code>), <em>"What's my current directory?"</em> (&rarr; <code>pwd</code>), <em>"Read https://example.com"</em> (&rarr; fetch + summarize). Blocked: <code>rm</code>, <code>sudo</code>, <code>kill</code>, <code>shutdown</code>, etc.</td>
+  </tr>
+  <tr>
+    <td>T10</td><td>Self-improvement (skills)</td><td><span class="badge badge-good">RUNNABLE</span></td>
+    <td>Say/type: <em>"Reflect on what you've learned"</em>. Expect: reviews notes/tasks/memory, generates reflection, may create skills in <code>skills/</code>. Also: <em>"List your skills"</em>, <em>"Run daily briefing"</em>.</td>
+  </tr>
+  <tr>
+    <td>T11</td><td>Text conversation</td><td><span class="badge badge-good">RUNNABLE</span></td>
+    <td><code>pnpm chat</code>. Type at <code>you&gt;</code> prompt. 20 tools available. <code>/new</code> = fresh conversation, <code>/history</code> = list past conversations, <code>exit</code> = quit. Expect: streamed text, auto-resumes on restart (last 40 messages).</td>
+  </tr>
+  <tr>
+    <td>T12</td><td>HTTP API access</td><td><span class="badge badge-good">RUNNABLE</span></td>
+    <td><code>pnpm api</code> (port 9902). Test: <code>curl /health</code>, <code>curl /tools</code>, <code>curl -N -X POST /chat -d '{"message":"What time is it?"}'</code> (SSE), <code>curl /conversations</code>, <code>curl -X POST /conversations/new</code>.</td>
+  </tr>
+  <tr>
+    <td>T13</td><td>Cross-device sync</td><td><span class="badge badge-none">NOT STARTED</span></td>
+    <td>Needs cloud relay infrastructure. No test method yet.</td>
+  </tr>
+  <tr>
+    <td>T14</td><td>Phone calls</td><td><span class="badge badge-good">RUNNABLE</span></td>
+    <td>Setup: Twilio account + <code>TWILIO_ACCOUNT_SID</code>/<code>AUTH_TOKEN</code>/<code>PHONE_NUMBER</code>/<code>WEBHOOK_URL</code> in <code>.env</code> + ngrok. <strong>Outbound:</strong> <em>"Call +14155551234 and tell them I'll be 10 min late"</em>. <strong>Inbound:</strong> call your Twilio number &rarr; connects to voice agent via Media Streams. Requires <code>pnpm dev</code> + <code>pnpm api</code>.</td>
+  </tr>
 </table>
 </div>
 </div>
