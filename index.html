@@ -1,340 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Resume - Start Bootstrap Theme</title>
-        <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
-        <!-- Font Awesome icons (free version)-->
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-        <!-- Google fonts-->
-        <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet" type="text/css" />
-        <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet" type="text/css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5/css/all.min.css">
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="css/styles.css" rel="stylesheet" />
-    </head>
-    <body id="page-top">
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
-            <a class="navbar-brand js-scroll-trigger" href="#page-top">
-                <span class="d-block d-lg-none">Susan (Xueqing) Liu</span>
-                <span class="d-none d-lg-block"><img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="assets/img/profile.jpg" alt="..." /></span>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">About</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#interests">Research interests</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#education">Education</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#Students">Students</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#Publications">Publications</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#Teaching">Teaching</a></li>
-                </ul>
-            </div>
-        </nav>
-        <!-- Page Content-->
-        <div class="container-fluid p-0">
-            <!-- About-->
-            <section class="resume-section" id="about">
-                <div class="resume-section-content">
-                    <h1 class="mb-0">
-                        Susan (Xueqing)
-                        <span class="text-primary">Liu</span>
-                    </h1>
-                    <div class="subheading mb-5">
-                        250 Gateway South · Hoboken, NJ 07030 · USA ·
-                        <a href="mailto:xliu127@stevens.edu">Email</a>
-                    </div>
-                    <p class="lead mb-5">Assistant professor at the Department of Computer Science of
-    <a href="https://www.stevens.edu/school-engineering-science/departments/computer-science" target="_blank">Stevens Institute of Technology</a>.</p>
-                    <p class="lead mb-5">I am actively looking for PhD students and post-docs working on NLP for SE/Security.</p>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Susan (Xueqing) Liu - Stevens Institute of Technology</title>
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <style>
+        :root { --accent: #2c5282; --text: #1a202c; --muted: #4a5568; --bg: #fff; --border: #e2e8f0; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Georgia', 'Times New Roman', serif; color: var(--text); background: var(--bg); line-height: 1.7; }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .container { max-width: 820px; margin: 0 auto; padding: 40px 24px 80px; }
+        header { display: flex; gap: 28px; align-items: flex-start; margin-bottom: 36px; flex-wrap: wrap; }
+        header img { width: 160px; height: 160px; border-radius: 6px; object-fit: cover; }
+        header .info { flex: 1; min-width: 280px; }
+        header h1 { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+        header .title { color: var(--muted); font-size: 16px; margin-bottom: 12px; }
+        header .links { font-size: 14px; color: var(--muted); }
+        header .links a { margin-right: 16px; }
+        .alert { background: #fffbeb; border-left: 4px solid #d69e2e; padding: 14px 18px; margin-bottom: 32px; border-radius: 0 4px 4px 0; }
+        .alert strong { color: #744210; }
+        .alert .award-title { font-style: italic; }
+        h2 { font-size: 20px; font-weight: 700; margin: 36px 0 14px; padding-bottom: 6px; border-bottom: 2px solid var(--border); }
+        h2:first-of-type { margin-top: 0; }
+        .news-list { list-style: none; }
+        .news-list li { padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 15px; }
+        .news-list .date { color: var(--muted); font-size: 13px; display: inline-block; width: 90px; }
+        .pub-list { list-style: none; counter-reset: pub; }
+        .pub-list li { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 15px; }
+        .pub-list li::before { counter-increment: pub; content: "[" counter(pub) "]"; color: var(--muted); font-size: 13px; margin-right: 8px; }
+        .pub-list .venue { font-weight: 600; }
+        .pub-list .award { color: #c53030; font-weight: 600; font-size: 13px; }
+        .students-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 32px; font-size: 15px; }
+        .teaching-list { list-style: none; font-size: 15px; }
+        .teaching-list li { padding: 4px 0; }
+        .bio p { font-size: 15px; margin-bottom: 10px; }
+        .seeking { background: #ebf8ff; border-left: 4px solid var(--accent); padding: 12px 16px; margin-top: 16px; font-size: 14px; border-radius: 0 4px 4px 0; }
+        footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 48px; }
+        @media (max-width: 600px) { header { flex-direction: column; align-items: center; text-align: center; } header .links { text-align: center; } .students-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+<div class="container">
 
-                    <div class="social-icons">
-                        <a class="social-icon" href="https://github.com/liususan091219" target="_blank"><i class="fab fa-github"></i></a> <a class="social-icon" href="https://www.linkedin.com/in/susan-xueqing-liu-40b30227/" target="_blank"><i class="fab fa-linkedin"></i></a> <a class="social-icon" href="https://scholar.google.com/citations?user=g5W4khgAAAAJ&hl=en" target="_blank"><i class="fa-brands fa-google"></i></a>
-                    </div>
-                </div>
-            </section>
-            <hr class="m-0" />
-            <!-- Interests-->
-            <section class="resume-section" id="interests">
-                <div class="resume-section-content">
-                    <h2 class="mb-5">Research Interests</h2>
-                    <p class="mb-0">Natural language processing, text mining, information retrieval, and their application to software engineering and security are my areas of interest. Here is a list of topics I have worked on:</p>
-                    <ul>
-                        <li><b>Natural language processing for security:</b>
-                            <ul>
-                                <li>Assisting software developers to explain permission purposes on mobile devices: <a href="https://liususan091219.github.io/pdf/vlhcc18_xueqing.pdf" style="color: blue;">[VL/HCC 2018]</a>, CLAP <a href="https://liususan091219.github.io/pdf/re18_xueqing.pdf" style="color: blue;">[RE 2018]</a> </li>
-                                <li> Using NLP to assist security vulnerability ecosystem: <a href="https://arxiv.org/pdf/2108.06590" style="color: blue;">[MLHat@KDD 2021]</a>, VulLibGen <a href="https://arxiv.org/pdf/2308.04662" style="color: blue;">[ACL 2024]</a></li>
-                            </ul>
-                        </li>
-
-                        <li><b>Natural language processing for software engineering:</b>
-                            <ul>
-                                <li>Information retrieval for NL/code data: LinkSO <a href="https://liususan091219.github.io/pdf/nl4se18.pdf" style="color: blue;">[NL4SE@FSE 2018]</a>
-                                <li> Testing NLP models: TestAug<a href="https://aclanthology.org/2022.coling-1.307.pdf" style="color: blue;"> [COLING 2022]</a>, HateModerate <a href="https://arxiv.org/pdf/2307.12418" style="color: blue;">[NAACL 2024]</a>.</li>
-                            </ul>
-                        </li>
-                    </ul>
-
-                </div>
-            </section>
-            <hr class="m-0" />
-            <!-- Education-->
-            <section class="resume-section" id="education">
-                <div class="resume-section-content">
-                    <h2 class="mb-5">Education</h2>
-                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                        <div class="flex-grow-1">
-                            <h3 class="mb-0">University of Illinois Urbana-Champaign</h3>
-                            <div class="subheading mb-3">Ph.D. in Computer Science</div>
-                            <div>Advised by
-                                <a href="https://czhai.cs.illinois.edu/" target="_blank">Prof. Chengxiang (“Cheng”) Zhai</a>
-                                and co-advised by
-                                <a href="https://taoxiease.github.io/" target="_blank">Prof. Tao Xie</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                        <div class="flex-grow-1">
-                            <h3 class="mb-0">Tsinghua University, China</h3>
-                            <div class="subheading mb-3">B.S. in Interdisciplinary Information Sciences (Yao Class)</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <hr class="m-0" />
-
-            <!-- Students-->
-            <section class="resume-section" id="Students">
-                <div class="resume-section-content">
-                    <h2 class="mb-5">Students</h2>
-                    <ul>
-                        <li>PhD students:
-                            <ul>
-                                <li><a href="https://davidyang.info/">Guanqun Yang</a> (Aug 2020-now)</li>
-                                <li>Jiangrui Zheng (Aug 2024-now)</li>
-                            </ul>
-                        </li>
-                        <li>Alumni:
-                            <ul>
-                                <li>Murad Aleskerov (Aug 2023-Dec 2023)</li>
-                                <li>Shubhankar Deol (Aug 2023-Dec 2023)</li>
-                                <li>Shay Dineen (Feb 2021-Feb 2022): NLP for security</li>
-                                <li>Zhipeng Lin (Aug 2020-Aug 2021): NLP for security</li>
-                            </ul>
-                        </li>
-                    </ul>
-
-            </section>
-            
-            <hr class="m-0" />
-
-            <!-- Publications-->
-            <section class="resume-section" id="Publications">
-                <div class="resume-section-content">
-                    <h2 class="mb-5">Publications</h2>
-                    <ul class="fa-ul mb-0">
-                      <ul>
-
-                        <li class="paper" style=><b>EVATest: Domain-Oriented Android GUI Testing based on Reward-Guided Retrieval-Augmented Generation</b> 
-
-                            <br> 
-       Bhavana Kondeti, Guanqun Yang, Yui Takashima, <b>Xueqing Liu</b>, Xiaoyin Wang
-</b> <br>
-        In <i> New Ideas and Emerging Results (NIER) track at ICSE <a href="https://s2ai-bigdata.github.io/key.html">(ICSE-NIER)</a>,<br>Rio De Janeiro, Brazil, April 2026</i>.<br>
-        <!--<a href="" ><b>[Slides]</b></a>, --> 
-        to appear
-        </li><br>
-
-
-                        <li class="paper" style=><b>From Reviewers' Lens: Understanding Bug Bounty Report Invalid Reasons with LLMs</b> 
-
-                            <br> 
-       Jiangrui Zheng, Yingming Zhou, Ali Abdullah Ahmad, Hanqing Yao, <b>Xueqing Liu</b> <br>
-        In <i> Workshop on Secure and Safe AI Agents for Big Data Infrastructure <a href="https://s2ai-bigdata.github.io/key.html">(S2AI@BigData)</a>,<br>Macau SAR, China, December 2025</i>.<br>
-        <!--<a href="" ><b>[Slides]</b></a>, --> <a href="https://arxiv.org/abs/2511.18608"><b>[Paper]</b></a>
-        </li><br>
-
-
-                        <li class="paper" style=><b>An Exploratory Study on Build Issue Resolution Among Computer Science Students</b> 
-
-                            <br> 
-       Sunzhou Huang, Na Meng, <b>Xueqing Liu</b>, Xiaoyin Wang <br>
-        In <i> 37th IEEE Conference on Software Engineering Education and Training (CSEE&T, replaced ICSE’25 traditional education track) <a href="https://conf.researchr.org/home/icse-2025/cseet-2025">(ICSE-CSEE&T)</a>,<br>Ottawa, Canada, April 2025</i>.<br>
-        <!--<a href="" ><b>[Slides]</b></a>, --> <a href="https://arxiv.org/pdf/2502.15912"><b>[Paper]</b></a>
-        <br><b><span style="color:red;"> ACM SIGSOFT Distinguished Paper Award</span> </b><br>
-        </li><br>
-        
-
-                            <li class="paper" style=><b>VulLibGen: Generating Names of Vulnerability-Affected Packages via a Large Language Model</b> <br> 
-       Tianyu Chen, Lin Li, Liuchuan Zhu, Zongyang Li, <b>Xueqing Liu</b>, Guangtai Liang, Qianxiang Wang, Tao Xie <br>
-        In <i> the 62nd Annual Meeting of the Association for Computational Linguistics <a href="https://2024.aclweb.org/">(ACL 2024 Main Conference)</a>,<br>Bangkok, Thailand, August 2024</i>.<br>
-        <!--<a href="" ><b>[Slides]</b></a>, --> <a href="https://arxiv.org/pdf/2308.04662"><b>[Paper]</b></a>
-        </li><br>
-
-          <li class="paper" style=><b>HateModerate: Testing Hate Speech Detectors against Content Moderation Policies</b> <br> 
-       Jiangrui Zheng, <b>Xueqing Liu</b>, Guanqun Yang, Mirazul Haque, Xing Qian, Ravishka Rathnasuriya, Wei Yang, Girish Budhrani <br>
-        In <i> the 2024 Annual Conference of the North American Chapter of the Association for Computational Linguistics <a href="https://2024.naacl.org/">(NAACL 2024 Finding)</a>,<br>Mexico City, Mexico, June 2024</i>.<br>
-        <!--<a href="" ><b>[Slides]</b></a>, --> <a href="https://arxiv.org/pdf/2307.12418.pdf"><b>[Paper]</b></a>
-        </li><br>
-
-          <li class="paper" style=><b>Cost-Effective Hyperparameter Optimization for Large Language Model Generation Inference</b> <br> 
-       Chi Wang, <b>Xueqing Liu</b>, Ahmed H Awadallah <br>
-        In <i> the <a href="https://2023.automl.cc/"> AutoML Conference 2023</a>,<br>Berlin, Germany, September 2023</i>.<br>
-        <!--<a href="" ><b>[Slides]</b></a>, --> <a href="https://arxiv.org/pdf/2303.04673.pdf"><b>[Paper]</b></a>
-        </li><br>
-
-          <li class="paper" style=><b>Automated Machine Learning & Tuning with FLAML</b> <br> 
-       Chi Wang, Qingyun Wu, <b>Xueqing Liu</b>, Luis Quintanilla <br>
-        In <i> the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining <a href="https://mlhat.org/">(KDD 2022 Hands-on Tutorial)</a>,<br>Washington D.C., US, August 2022</i>.<br>
-        <!--<a href="" ><b>[Slides]</b></a>, --> <a href="https://drive.google.com/file/d/16Pk_IxKhrVMKEq1TRNDKYv80s7o0fLKk/view?usp=sharing"><b>[Paper]</b></a>
-        </li><br>
-
-          <li class="paper" style=><b>TestAug: A Framework for Augmenting Capability-based NLP Tests</b> <br> 
-       Guanqun Yang, Mirazul Haque, Qiaochu Song, Wei Yang and <b>Xueqing Liu</b><br>
-        To appear. In <i> The 29th International Conference on Computational Linguistics <a href="https://mlhat.org/">(COLING 2022)</a>,<br>Gyeongju, Republic of Korea, October 2022</i>.<br>
-        <!--<a href="" ><b>[Slides]</b></a>, --> <a href="https://aclanthology.org/2022.coling-1.307.pdf"><b>[Paper]</b></a>
-        </li><br>
-
-
-           <li class="paper" style=><b>Few-Sample Named Entity Recognition for Security Vulnerability Reports by Fine-Tuning Pre-trained Language Models</b> <br> 
-        Guanqun Yang, Shay Dineen, Zhipeng Lin, <b>Xueqing Liu</b><br>
-        In <i> International Workshop on Deployable Machine Learning for Security Defense <a href="https://mlhat.org/">(MLHat @KDD 2021)</a>,<br>Singapore, August 2021</i>.<br>
-        <!--<a href="" ><b>[Slides]</b></a>, --> <a href="https://arxiv.org/pdf/2108.06590.pdf"><b>[Paper]</b></a>
-        </li><br>
-
-          <li class="paper" style=><b>An Empirical Study on Hyperparameter Optimization for Fine-Tuning Pre-trained Language Models</b> <br> 
-        <b>Xueqing Liu</b>, Chi Wang<br>
-        In <i> The 59th Annual Meeting of the Association for Computational Linguistics and the 11th International Joint Conference on Natural Language Processing <a href="https://2021.aclweb.org/">(ACL-IJCNLP 2021 Main Conference)</a>,<br>Virtual, August 2021</i>.<br>
-        <!--<a href="" ><b>[Slides]</b></a>, --> <a href="https://arxiv.org/pdf/2106.09204.pdf"><b>[Paper]</b></a>
-        </li><br>
-
-                <li class="paper" style=><b>Benchmarking Meaning Representations in Neural Semantic Parsing</b> <br> 
-        Jiaqi Guo, Qian Liu, Jian-Guang Lou, Zhenwen Li, <b>Xueqing Liu</b>, Tao Xie, Ting Liu<br>
-        In <i> The 2020 Conference on Empirical Methods in Natural Language Processing <a href="https://2020.emnlp.org/">(EMNLP 2020 Main Conference)</a>,<br>Virtual, November 2020</i>.<br>
-        <!--<a href="" ><b>[Slides]</b></a>, --> <a href="https://taoxie.cs.illinois.edu/publications/emnlp20-meaningrep.pdf"><b>[Paper]</b></a>
-        </li><br>
-
-        <li class="paper" style=><b>Data-driven assistance for user decision making on mobile devices</b> <br> 
-        Ph.D. thesis. 2019<br>
-        <!--<a href="" ><b>[Slides]</b></a>, --> <a href="pdf/LIU-DISSERTATION-2019.pdf"><b>[Thesis]</b></a>
-        </li><br>
-
-                <li class="paper" style=><b>LinkSO: A Benchmark for Learning to Retrieve Similar Question-Answer Pairs on Software Development Forums</b> <br> 
-                <b>X. Liu</b>, Chi Wang, Yue Leng, ChengXiang Zhai.<br>
-        In <i> ESEC/FSE Workshop on NLP for Software Engineering <a href="https://nl4se2018.github.io">(NL4SE 2018)</a>,<br>Lake Buena Vista, Florida, November 2018</i>.<br>
-                <!--<a href="" ><b>[Slides]</b></a>, --> <a href="pdf/nl4se18.pdf"><b>[Short Paper]</b></a>  <a href="https://sites.google.com/view/linkso"><b>[Dataset]</b></a>
-                </li><br>
-
-              <li class="paper"><b> A Large-scale Empirical Study on Android Runtime-Permission Rationales</b><br> 
-        <b>X. Liu</b>, Yue Leng, Wei Yang, Wenyu Wang, ChengXiang Zhai and Tao Xie.<br>
-        In <i>Proceedings of the IEEE Symposium on Visual Languages and Human-Centric Computing <a href="https://vlhcc18.github.io/">(VL/HCC 2018)</a>, Lisbon, Portugal, October 2018.</i><br>
-        <a href="pdf/vlhcc18_xueqing.pdf"><b>[Paper]</b></a>, <a href="http://sites.google.com/view/runtimepermissionproject/home"><b>[Dataset]</b></a>, <a href="slides/vlhcc18_xueqing.pptx"><b>[Slides]</b></a>
-        </li><br>
-
-                <li class="paper"><b> Mining Android App Descriptions for Permission Requirements Recommendation</b><br> 
-        <b>X. Liu</b>, Yue Leng, Wei Yang, ChengXiang Zhai and Tao Xie.<br>
-        In <i>Proceedings of the IEEE International Requirements Engineering Conference (22.2%) <a href="http://www.re18.org/">(RE 2018),</a><br> 
-        Banff, Canada, August 2018.</i><br>
-        <a href="pdf/re18_xueqing.pdf"><b>[Paper]</b></a>, <a href="http://sites.google.com/view/clapprojsite/home"><b>[Dataset]</b></a>, <a href="slides/re18.pptx"><b>[Slides]</b></a> 
-        </li><br>
-
-                <li class="paper"><b> Visualizing Path Exploration to Assist Problem Diagnosis for Structural Test Generation</b><br> 
-        Jiayi Cao, Angello Astorga, Siwakorn Srisakaokul, Zhengkai Wu, Xueqing Liu, Xusheng Xiao, and Tao Xie.<br>
-        <!--<a href="https://eprint.iacr.org/2018/380", class="black" > Eprint</a><br>-->
-        In <i>Proceedings of the IEEE Symposium on Visual Languages and Human-Centric Computing (<a href="https://vlhcc18.github.io/">VL/HCC 2018</a>), <b>Posters</b>, Lisbon, Portugal, October 2018.</i> <br>
-        <!--<a href="" ><b>[Slides]</b></a>, --> <a href="pdf/vlhcc18_joey.pdf"><b>[Short Paper]</b></a>, <a href="pdf/vlhcc18_joey.pdf"><b>[Slides]</b></a>
-        </li><br>
-
-        <li class="paper"><b> Information Retrieval Evaluation as Search Simulation: A General Formal Framework for IR Evaluation </b><br> 
-        Yinan Zhang, <b>X. Liu</b> and ChengXiang Zhai.<br>
-        In <i>Proceedings of the International Conference on the Theory of Information Retrieval <a href="http://sigir.org/ictir2017/">(ICTIR 2017)</a>,<br>
-        Amsterdam, Netherland, October 2017.</i><br> 
-        <a href="pdf/ictir17_zhang.pdf"><b>[Paper]</b></a>, <a href="http://timan102.cs.illinois.edu/yzhng103/fomalhaut/m-times-navigation.php"><b>[Demo]</b></a> 
-        </li><br>
-
-        <li class="paper"><b> Numerical Facet Range Partition: Evaluation Metric and Methods </b><br> 
-        <b>X. Liu</b>, ChengXiang Zhai, Wei Han and Onur Gungor<br>
-        In <i>Proceedings of the International on World Wide Web Conference (19.6%) <a href="http://www2017.com.au/">(WWW 2017),</a><br>
-        <b>Industry Track</b>, Perth, Australia, April 2017.</i><br>
-        <a href="pdf/www17_xueqing.pdf"><b>[Paper]</b></a>, <a href="slides/www17_xueqing.pptx"><b>[Slides]</b></a>
-        </li><br>
-
-        <li class="paper"><b> User Fatigue in Online News Recommendation </b><br> 
-        Hao Ma, <b>X. Liu</b>, Zhihong Shen <br>
-        In <i>Proceedings of the International on World Wide Web Conference (17.3%) <a href="http://www2016.ca/">(WWW 2016),</a><br>
-        <b>Industry Track</b>, Montreal, Canada, April 2016.</i><br>
-        <a href="pdf/www16_hao.pdf"><b>[Paper]</b></a>
-        </li><br>
-
-  
-        
-
-                
-        <li class="paper"><b> Towards Interactive Construction of Topical Hierarchy: A Recursive Tensor Decomposition Approach </b><br> 
-        Chi Wang, <b>X. Liu</b>, Yanglei Song, Jiawei Han<br>
-        In <i>Proceedings of the SIGKDD Conference on Knowledge Discovery and Data Mining (19.5%) <a href="http://www.kdd.org/kdd2015/">(KDD 2015),</a><br> 
-        Sydney, Australia, August 2015.</i><br>
-        <a href="pdf/kdd15_chi.pdf"><b>[Paper]</b></a>, <a href="https://github.com/liususan091219/kdd2015"><b>[Code]</b></a>
-        </li><br>
-
-                <li class="paper"><b> Automatic Taxonomy Construction from Keywords via Scalable Bayesian Rose Trees </b><br> 
-        Yangqiu Song, Shixia Liu, <b>X. Liu</b>, Haixun Wang<br>
-        In <i>IEEE Transactions on Knowledge and Data Engineering <a href="https://www.computer.org/web/tkde">(TKDE)</a><br>
-        Volume 27(7), Pages 1861 - 1874, July 2015.</i><br> 
-        <a href="pdf/tkde15_yangqiu.pdf"><b>[Paper]</b></a>
-        </li><br>
-
-        <li class="paper"><b> Scalable Moment-based Inference for Latent Dirichlet Allocation </b><br> 
-        Chi Wang, <b>X. Liu</b>, Yanglei Song, Jiawei Han<br>
-        In <i>Proceedings of the Joint European Conference on Machine Learning and Knowledge Discovery in Databases (23.8%) <a href="http://ecmlpkdd2014.loria.fr/">(ECML/PKDD 2014)</a><br>
-        Nancy, France, September 2014.</i><br> 
-        <a href="pdf/ecmlpkdd14_chi.pdf"><b>[Paper]</b></a>
-        </li><br>
-
-        <li class="paper"><b> Scalable Exact Inference for Topic Model </b><br> 
-        Chi Wang, <b>X. Liu</b>, Yanglei Song, Jiawei Han<br>
-        In <i> <a href="https://nl4se2018.github.io">ICML Workshop on Moment Based Inference</a>,<br>
-        Beijing, China, 2014.</i>
-        </li><br>
-        
-
-
-        <li class="paper"><b> Automatic Taxonomy Construction from Keywords </b><br> 
-        <b>X. Liu</b>, Yangqiu Song, Shixia Liu, Haixun Wang<br>
-        In <i>Proceedings of the SIGKDD Conference on Knowledge Discovery and Data Mining (17.6%) <a href="http://kdd2012.sigkdd.org/">(KDD 2012)</a>,<br>
-        Beijing, China, August 2012.</i><br>
-        <a href="pdf/kdd12_xueqing.pdf"><b>[Paper]</b></a>
-        </li><br>
-
-                        </li>
-                    </ul>
-                </div>
-            </section>
-
-            <hr class="m-0" />
-
-            <!-- Teaching-->
-            <section class="resume-section" id="Teaching">
-                <div class="resume-section-content">
-                    <h2 class="mb-5">Teaching</h2>
-                    <ul>
-                        <li> <a href="teaching/cs589_23f/index.html">CS 589 Text Mining and Information Retrieval </a> (2020-present)
-                        </li>
-                        <li>CS 541 Artificial Intelligence (2023-present)
-                        </li>
-                        <li>CS 284 Data Structure (2020-2022)
-                        </li>
-                    </ul>
-
-            </section>
+<header>
+    <img src="assets/img/profile.jpg" alt="Susan Liu">
+    <div class="info">
+        <h1>Susan (Xueqing) Liu</h1>
+        <div class="title">Assistant Professor, Department of Computer Science<br>Stevens Institute of Technology</div>
+        <div class="links">
+            <a href="mailto:xliu127@stevens.edu">xliu127@stevens.edu</a>
+            <a href="https://scholar.google.com/citations?user=YOUR_ID">Google Scholar</a>
+            <a href="https://github.com/liususan091219">GitHub</a>
+            <a href="pdf/resume.pdf">CV</a>
         </div>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
-    </body>
+    </div>
+</header>
+
+<div class="alert">
+    <strong>NSF CAREER Award (2026)</strong> &mdash;
+    <span class="award-title">"CAREER: Towards Automated Vulnerability Management: Vulnerability Discovery, Localization, and Continuous Monitoring"</span><br>
+    NSF SaTC Program, Award #<a href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2543926">2543926</a>, $624,660, July 2026 &ndash; June 2031.
+</div>
+
+<h2>News</h2>
+<ul class="news-list">
+    <li><span class="date">Jul 2026</span> Received <strong>NSF CAREER Award</strong> for automated vulnerability management research.</li>
+    <li><span class="date">Apr 2026</span> Paper accepted at <strong>ICSE-NIER 2026</strong>: EVATest for Android GUI testing.</li>
+    <li><span class="date">Apr 2025</span> <strong>ACM SIGSOFT Distinguished Paper Award</strong> at ICSE-CSEE&amp;T 2025.</li>
+    <li><span class="date">Aug 2024</span> Paper accepted at <strong>ACL 2024</strong>: VulLibGen for vulnerability-affected packages.</li>
+    <li><span class="date">Aug 2024</span> Welcome Jiangrui Zheng joining as a PhD student.</li>
+</ul>
+
+<h2>Research Interests</h2>
+<div class="bio">
+    <p>My research focuses on <strong>NLP for security and software engineering</strong>. I develop AI-driven methods to discover, localize, and manage software vulnerabilities at scale. Key areas include:</p>
+    <p>&bull; <strong>Vulnerability Management</strong> &mdash; AI + program analysis for vulnerability localization, recommender systems for vulnerability discovery, monitoring AI agent security behaviors<br>
+    &bull; <strong>NLP for Software Engineering</strong> &mdash; mining software artifacts, code understanding, automated testing<br>
+    &bull; <strong>Text Mining &amp; Information Retrieval</strong> &mdash; content analysis, user behavior modeling</p>
+    <div class="seeking">
+        <strong>Openings:</strong> I am looking for motivated PhD students and post-docs interested in NLP for security/SE. Please email me with your CV.
+    </div>
+</div>
+
+<h2>Selected Publications</h2>
+<ul class="pub-list">
+    <li>EVATest: Domain-Oriented Android GUI Testing via Execution-Guided Visual Grounding Agent. <span class="venue">ICSE-NIER 2026</span> (forthcoming)</li>
+    <li>From Reviewers' Lens: Understanding Bug Bounty Report Invalid Reasons with LLMs. <span class="venue">S2AI@BigData 2025</span></li>
+    <li>An Exploratory Study on Build Issue Resolution Among CS Students. <span class="venue">ICSE-CSEE&amp;T 2025</span> <span class="award">ACM SIGSOFT Distinguished Paper Award</span></li>
+    <li>X. Liu et al. VulLibGen: Generating Names of Vulnerability-Affected Packages via a Large Language Model. <span class="venue">ACL 2024</span></li>
+    <li>HateModerate: Testing Hate Speech Detectors against Content Moderation Policies. <span class="venue">NAACL 2024 Findings</span></li>
+    <li>C. Wang, X. Liu, A. Awadallah. Cost-Effective Hyperparameter Optimization for Large Language Model Generation Inference. <span class="venue">AutoML 2023</span></li>
+    <li>G. Yang et al. Few-Sample Named Entity Recognition for Security Vulnerability Reports. <span class="venue">COLING 2022</span></li>
+    <li>C. Wang et al. TestAug: A Framework for Augmenting Capability-Based NLP Tests. <span class="venue">MLHat@KDD 2022</span></li>
+    <li>X. Liu, C. Wang. Benchmarking Meaning Representations in Neural Semantic Parsing. <span class="venue">ACL-IJCNLP 2021</span></li>
+    <li>G. Yang et al. An Empirical Study on Hyperparameter Optimization for Fine-Tuning Pre-trained Language Models. <span class="venue">ACL-IJCNLP 2021</span></li>
+    <li>X. Liu. A Large-Scale Empirical Study on Android Runtime-Permission Rationale Messages. <span class="venue">VL/HCC 2018</span></li>
+    <li>X. Liu et al. User Fatigue in Online News Recommendation. <span class="venue">WWW 2016</span></li>
+    <li>C. Wang et al. Automatic Taxonomy Construction from Keywords via Scalable Bayesian Rose Trees. <span class="venue">KDD 2015</span></li>
+</ul>
+<p style="font-size: 14px; color: var(--muted); margin-top: 8px;">
+    <a href="https://scholar.google.com/citations?user=YOUR_ID">Full publication list on Google Scholar</a>
+</p>
+
+<h2>Students</h2>
+<h3 style="font-size: 16px; font-weight: 600; margin: 12px 0 8px;">Current</h3>
+<div class="students-grid">
+    <div>Guanqun Yang (PhD, 2020&ndash;)</div>
+    <div>Jiangrui Zheng (PhD, 2024&ndash;)</div>
+</div>
+<h3 style="font-size: 16px; font-weight: 600; margin: 16px 0 8px; color: var(--muted);">Alumni</h3>
+<div class="students-grid">
+    <div>Murad Aleskerov (MS, 2023)</div>
+    <div>Shubhankar Deol (MS, 2023)</div>
+    <div>Shay Dineen (MS, 2021&ndash;2022)</div>
+    <div>Zhipeng Lin (MS, 2020&ndash;2021)</div>
+</div>
+
+<h2>Teaching</h2>
+<ul class="teaching-list">
+    <li><strong>CS 589:</strong> Text Mining and Information Retrieval (Fall 2020&ndash;present)</li>
+    <li><strong>CS 541:</strong> Artificial Intelligence (Spring 2023&ndash;present)</li>
+    <li><strong>CS 284:</strong> Data Structures (Spring 2020&ndash;Spring 2022)</li>
+</ul>
+
+<h2>Education</h2>
+<ul class="teaching-list">
+    <li><strong>Ph.D.</strong> Computer Science, University of Illinois Urbana-Champaign<br>
+        <span style="color: var(--muted); font-size: 14px;">Advisors: Chengxiang Zhai, Tao Xie</span></li>
+    <li><strong>B.S.</strong> Interdisciplinary Information Sciences (Yao Class), Tsinghua University</li>
+</ul>
+
+<footer>
+    &copy; 2026 Susan (Xueqing) Liu &middot; Stevens Institute of Technology
+</footer>
+
+</div>
+</body>
 </html>
